@@ -4,7 +4,7 @@
 	email = a.shubbak@outlook.com
 	name = Abdulrahman Shubbak
 [alias]
-	ca = commit
+	ca = commit -am
 	s = status
 	df = diff
 	dc = diff --cached
