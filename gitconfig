@@ -5,7 +5,7 @@
 	name = Abdulrahman Shubbak
 [alias]
 	ca = commit -am
-    ci = commit -m
+    cm = commit -m
 	s = status
 	df = diff
 	dc = diff --cached
