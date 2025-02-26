@@ -113,9 +113,6 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# This is necessary for the WSL, I hope it doesn' break anything
-export XDG_CONFIG_HOME="$HOME/.config"
-
 alias nvim="nvim.exe"
 alias gvim="neovide"
 alias cdD='cd /media/abu-hamza/Backup\ Plus/Dokumente'
