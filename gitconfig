@@ -16,3 +16,5 @@
 	checkAlias = config --get-regexp alias
 [init]
 	defaultBranch = main
+[core]
+	autocrlf = input
