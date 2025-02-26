@@ -116,3 +116,4 @@ source $ZSH/oh-my-zsh.sh
 alias nvim="nvim.exe"
 alias gvim="neovide"
 alias cdD='cd /media/abu-hamza/Backup\ Plus/Dokumente'
+alias py='python3'
