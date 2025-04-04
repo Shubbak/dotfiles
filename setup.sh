@@ -47,5 +47,6 @@ else
 fi
 
 echo "please make sure Zoom, Anki and Telegram are installed manually."
+echo "Make sure to also clone and run the setup in the nvim repo."
 
 
