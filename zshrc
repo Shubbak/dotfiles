@@ -122,3 +122,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 alias pullall='for repo in */; do git -C "$repo" pull; done'
+alias statusall='for repo in */; do git -C "$repo" status; done'
