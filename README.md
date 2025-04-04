@@ -9,3 +9,8 @@ chmod +x setup.sh
 ```
 3. Execute the script
 4. Enjoy
+
+
+# Notes on aliases
+The `pullall` alias pulls all git repos inside the current directorie.
+However, you need to make sure that all subdirectories are indeed repos.
