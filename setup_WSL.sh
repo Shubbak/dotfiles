@@ -21,14 +21,8 @@ list_apts=(
     "tldr"
     "wget"
     "unzip"
-    "guake"
-    "thunderbird"
-    "vlc"
-    "firefox"
-    "inkscape"
-    "zotero"
-    "fortune"
     "cowsay"
+    "fortune"
 )
 
 missing_packages=()
@@ -45,7 +39,5 @@ if [ ${#missing_packages[@]} -gt 0 ]; then
 else
     echo "all packages are installed"
 fi
-
-echo "please make sure Zoom, Anki and Telegram are installed manually."
 
 
