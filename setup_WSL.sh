@@ -40,4 +40,5 @@ else
     echo "all packages are installed"
 fi
 
+echo "Make sure to also clone and run the setup in the nvim repo."
 
