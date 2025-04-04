@@ -1,8 +1,8 @@
 # What this is:
 Here, my ubuntu specific configuration files are stored and synced.
-The files are stored in ~/dotfiles and symlinks are created in the expected directories (e.g ~/.latexmkrc -> ~/dotfiles/latexmkrc)
+The files are stored in ~/Repos/dotfiles and symlinks are created in the expected directories (e.g ~/.latexmkrc -> ~/dotfiles/latexmkrc)
 # How to use it:
-1. clone the repo into ~
+1. clone the repo into ~/Repos/
 2. make the script executable:
 ```zsh
 chmod +x setup.sh
