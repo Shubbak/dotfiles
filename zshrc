@@ -123,3 +123,24 @@ export NVM_DIR="$HOME/.nvm"
 
 alias pullall='for repo in */; do git -C "$repo" pull; done'
 alias statusall='for repo in */; do git -C "$repo" status; done'
+
+
+# Cowsay
+
+animals=(
+    "default"
+    "tux"
+    "elephant"
+    "sheep"
+    "cock"
+    "fox"
+    "gnu"
+    "kangaroo"
+    "moose"
+    "stegosaurus"
+    )
+random_animal=${animals[$RANDOM % ${#animals[@]}]}
+fortune | cowsay -f $random_animal
+
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
