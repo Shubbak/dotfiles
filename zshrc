@@ -117,7 +117,8 @@ alias pullall='for repo in */; do git -C "$repo" pull; done'
 alias statusall='for repo in */; do git -C "$repo" status; done'
 
 alias gvim="neovide"
-alias cdD='cd /media/abu-hamza/Backup\ Plus/Dokumente/Repos&&pullall'
+alias cdD='cd /media/abu-hamza/Backup\ Plus/Dokumente/Repos'
+alias cdDp='cd /media/abu-hamza/Backup\ Plus/Dokumente/Repos&&pullall'
 alias cdR='cd ~/Repos&&pullall'
 alias py='python3'
 
