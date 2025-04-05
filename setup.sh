@@ -22,13 +22,14 @@ list_apts=(
     "wget"
     "unzip"
     "guake"
-    "thunderbird"
+    # "thunderbird"
     "vlc"
     "firefox"
     "inkscape"
-    "zotero"
+    # "zotero"
     "fortune"
     "cowsay"
+    # "obsidian"
 )
 
 missing_packages=()
@@ -46,7 +47,7 @@ else
     echo "all packages are installed"
 fi
 
-echo "please make sure Zoom, Anki and Telegram are installed manually."
+echo "please make sure Zoom, Anki and Telegram, Obsidian, Zotero and Thunderbird are installed manually."
 echo "Make sure to also clone and run the setup in the nvim repo."
 
 
