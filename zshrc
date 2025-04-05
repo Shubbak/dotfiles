@@ -113,6 +113,9 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+alias pullall='for repo in */; do git -C "$repo" pull; done'
+alias statusall='for repo in */; do git -C "$repo" status; done'
+
 alias gvim="neovide"
 alias cdD='cd /media/abu-hamza/Backup\ Plus/Dokumente/Repos&&pullall'
 alias cdR='cd ~/Repos&&pullall'
@@ -121,9 +124,6 @@ alias py='python3'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-alias pullall='for repo in */; do git -C "$repo" pull; done'
-alias statusall='for repo in */; do git -C "$repo" status; done'
 
 
 # Cowsay
