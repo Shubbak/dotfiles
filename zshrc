@@ -129,8 +129,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Cowsay
 
-animals=(
-    "default"
+animals=("default"
     "tux"
     "elephant"
     "sheep"
@@ -139,10 +138,10 @@ animals=(
     "gnu"
     "kangaroo"
     "moose"
-    "stegosaurus"
-    )
+    "stegosaurus")
 random_animal=${animals[$RANDOM % ${#animals[@]}]}
 fortune | cowsay -f $random_animal
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
 
