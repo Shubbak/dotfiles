@@ -157,6 +157,12 @@ phrases=("Are you working?"
     "Fleiß wie Imām al-Buḫāriy."
     "Fleiß wie Imām Šuʿba."
     "Mooo"
+    "Ummatī, Ummatī."
+    "Ummatuka bi Ḥāǧatik."
+    "Ya Allah"
+    "Ya Rabb al-ʿālamīn."
+    "Ya Rabb"
+    "Allahumma aʿinnī."
     "Bismillah, Yallah!")
 random_phrase=${phrases[$((RANDOM % ${#phrases[@]}))]}
 if [ "$random_phrase" = "" ]; then
