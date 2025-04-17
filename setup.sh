@@ -27,7 +27,6 @@ list_apts=(
     "firefox"
     "inkscape"
     # "zotero"
-    "fortune"
     "cowsay"
     # "obsidian"
 )

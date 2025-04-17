@@ -139,8 +139,23 @@ animals=("default"
     "kangaroo"
     "moose"
     "stegosaurus")
-random_animal=${animals[$RANDOM % ${#animals[@]}]}
-fortune | cowsay -f $random_animal
+random_animal=${animals[$((RANDOM % ${#animals[@]}))]}
+phrases=("Are you working?"
+    "Die Masterarbeit macht sich nicht von selbst."
+    "Bismillah."
+    "Wie läuft die Masterarbeit?"
+    "Denk an Layla und Lina."
+    "Du musst fertig werden."
+    "Tawakkal ʿala Allah."
+    "al-Ǧidd, al-Ǧidd"
+    "Erneuere deine Niyyah."
+    "Warum arbeitest du?"
+    "Denkst du an die Pomodoro-Technik?"
+    "Fleiß wie Imām al-Bukhari."
+    "Fleiß wie Imām Šuʿba."
+    "Bismillah, Yallah!")
+random_phrase=${phrases[$((RANDOM % ${#phrases[@]}))]}
+echo "$random_phrase" | cowsay -f "$random_animal"
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
