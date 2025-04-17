@@ -151,7 +151,7 @@ phrases=("Are you working?"
     "Erneuere deine Niyyah."
     "Warum arbeitest du?"
     "Denkst du an die Pomodoro-Technik?"
-    "Fleiß wie Imām al-Bukhari."
+    "Fleiß wie Imām al-Buḫāriy."
     "Fleiß wie Imām Šuʿba."
     "Mooo"
     "Bismillah, Yallah!")
