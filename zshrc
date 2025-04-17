@@ -140,6 +140,9 @@ animals=("default"
     "moose"
     "stegosaurus")
 random_animal=${animals[$((RANDOM % ${#animals[@]}))]}
+if [ "$random_animal" = "" ]; then
+    random_animal="default"
+fi
 phrases=("Are you working?"
     "Die Masterarbeit macht sich nicht von selbst."
     "Bismillah."
@@ -156,6 +159,9 @@ phrases=("Are you working?"
     "Mooo"
     "Bismillah, Yallah!")
 random_phrase=${phrases[$((RANDOM % ${#phrases[@]}))]}
+if [ "$random_phrase" = "" ]; then
+  random_phrase="Bismillah."
+fi
 echo "$random_phrase" | cowsay -f "$random_animal"
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
