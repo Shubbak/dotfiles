@@ -153,6 +153,7 @@ phrases=("Are you working?"
     "Denkst du an die Pomodoro-Technik?"
     "Fleiß wie Imām al-Bukhari."
     "Fleiß wie Imām Šuʿba."
+    "Mooo"
     "Bismillah, Yallah!")
 random_phrase=${phrases[$((RANDOM % ${#phrases[@]}))]}
 echo "$random_phrase" | cowsay -f "$random_animal"
