@@ -21,3 +21,5 @@
 	editor = nvim
 [pull]
 	rebase = false
+[help]
+    autocorrect = 30
