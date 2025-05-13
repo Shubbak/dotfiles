@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt update 
+
 command_exists() {
     command -v "$1" &>/dev/null
 }
@@ -9,9 +11,10 @@ list_apts=(
     "zsh"
     "ripgrep"
     "python3"
-    "python3-numpy"
-    "python3-pandas"
-    "python3-scipy"
+    "python3-venv"
+    # "python3-numpy"
+    # "python3-pandas"
+    # "python3-scipy"
     "python3-neovim"
     "nodejs"
     "tree"
@@ -24,7 +27,7 @@ list_apts=(
     "guake"
     # "thunderbird"
     "vlc"
-    "firefox"
+    # "firefox"
     "inkscape"
     # "zotero"
     "cowsay"
@@ -45,6 +48,13 @@ if [ ${#missing_packages[@]} -gt 0 ]; then
 else
     echo "all packages are installed"
 fi
+
+
+chsh -s $(which zsh)
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+
 
 echo "please make sure Zoom, Anki and Telegram, Obsidian, Zotero and Thunderbird are installed manually."
 echo "Make sure to also clone and run the setup in the nvim repo."
