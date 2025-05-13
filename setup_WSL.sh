@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt update
+
 command_exists() {
     command -v "$1" &>/dev/null
 }
@@ -9,9 +11,10 @@ list_apts=(
     "zsh"
     "ripgrep"
     "python3"
-    "python3-numpy"
-    "python3-pandas"
-    "python3-scipy"
+    "python3-venv"
+    # "python3-numpy"
+    # "python3-pandas"
+    # "python3-scipy"
     "python3-neovim"
     "nodejs"
     "tree"
@@ -22,7 +25,7 @@ list_apts=(
     "wget"
     "unzip"
     "cowsay"
-    "fortune"
+    # "fortune"
 )
 
 missing_packages=()
@@ -39,6 +42,12 @@ if [ ${#missing_packages[@]} -gt 0 ]; then
 else
     echo "all packages are installed"
 fi
+
+# zsh as standard shell
+chsh -s $(which zsh)
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 
 echo "Make sure to also clone and run the setup in the nvim repo."
 
