@@ -172,4 +172,21 @@ echo "$random_phrase" | cowsay -f "$random_animal"
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
+function duse() {
+    if [ "$1" != "" ]; then 
+        if [ "$2" != "" ]; then
+            du "$2" -h --max-depth="$1" | sort -h
+        else
+            du . -h --max-depth="$1" | sort -h
+        fi
+    else
+        if [ "$2" != "" ]; then
+            du "$2" -h --max-depth=3 | sort -h
+        else
+            du . -h --max-depth=3 | sort -h
+        fi
+    fi
+}
+
+
 
