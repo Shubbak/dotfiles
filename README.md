@@ -16,3 +16,4 @@ chmod +x setup_symlinks.sh
 # Notes on aliases
 The `pullall` alias pulls all git repos inside the current directorie.
 However, you need to make sure that all subdirectories are indeed repos.
+Else, an error occurs.
