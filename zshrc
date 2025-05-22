@@ -188,5 +188,9 @@ function duse() {
     fi
 }
 
+function gitend() {
+    git ca "$1" && git push
+}
+
 
 
