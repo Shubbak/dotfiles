@@ -181,9 +181,9 @@ function duse() {
         fi
     else
         if [ "$2" != "" ]; then
-            du "$2" -h --max-depth=3 | sort -h
+            du "$2" -h --max-depth=2 | sort -h
         else
-            du . -h --max-depth=3 | sort -h
+            du . -h --max-depth=2 | sort -h
         fi
     fi
 }
