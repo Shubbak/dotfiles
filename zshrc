@@ -192,5 +192,6 @@ function gitend() {
     git ca "$1" && git push
 }
 
+alias venvh2="source ~/.venv/h2/bin/activate"
 
 
