@@ -193,5 +193,5 @@ function gitend() {
 }
 
 alias venvh2="source ~/.venv/h2/bin/activate"
-alias checkpomo="cat ~/.config/nvim/lua/plugins.lua | rg 'total office time'"
+alias pomo="cat ~/.config/nvim/lua/plugins.lua | rg 'total office time'"
 
