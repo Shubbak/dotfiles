@@ -172,7 +172,7 @@ echo "$random_phrase" | cowsay -f "$random_animal"
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
-function duse() {
+function duse() {  # usage: duse(max-depth, location) def.: 2, .
     if [ "$1" != "" ]; then 
         if [ "$2" != "" ]; then
             du "$2" -h --max-depth="$1" | sort -h
@@ -195,3 +195,5 @@ function gitend() {
 alias venvh2="source ~/.venv/h2/bin/activate"
 alias pomo="rg 'total office time' ~/.config/nvim/lua/plugins.lua "
 alias pomobreak="rg -A 10 'local presets' ~/.config/nvim/lua/plugins.lua"
+
+alias connect-mouse='rfkill unblock bluetooth && sudo systemctl start bluetooth && bluetoothctl power on && bluetoothctl connect C8:A3:E5:8C:71:B1'
