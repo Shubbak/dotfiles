@@ -32,6 +32,7 @@ list_apts=(
     # "zotero"
     "cowsay"
     # "obsidian"
+    "pandoc"
 )
 
 missing_packages=()
@@ -56,7 +57,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 
 
-echo "please make sure Zoom, Anki and Telegram, Obsidian, Zotero and Thunderbird are installed manually."
+echo "please make sure Zoom, Anki, Telegram, Obsidian, Zotero and Thunderbird are installed manually."
 echo "Make sure to also clone and run the setup in the nvim repo."
 
 
