@@ -195,4 +195,4 @@ function gitend() {
 alias venvh2="source ~/.venv/h2/bin/activate"
 alias pomo="cat ~/.config/nvim/lua/plugins.lua | rg 'total office time'"
 
-alias connect-mouse='rfkill unblock bluetooth && sudo systemctl start bluetooth && bluetoothctl power on && bluetoothctl connect C8:A3:E5:8C:71:B1'
+alias connect-mouse='rfkill unblock bluetooth && sudo systemctl start bluetooth && bluetoothctl power on && bluetoothctl connect "$(bluetoothctl devices | grep -i '\''BT4.0+2.4G Mouse'\'' | awk '\''{print $2}'\'')"'
