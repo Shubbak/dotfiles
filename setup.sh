@@ -9,12 +9,14 @@ command_exists() {
 list_apts=(
     "git"
     "zsh"
+    "neovim"
+    "latexmk"
     "ripgrep"
     "python3"
     "python3-venv"
-    # "python3-numpy"
-    # "python3-pandas"
-    # "python3-scipy"
+    "python3-numpy"
+    "python3-pandas"
+    "python3-scipy"
     "python3-neovim"
     "nodejs"
     "tree"
@@ -25,13 +27,10 @@ list_apts=(
     "wget"
     "unzip"
     "guake"
-    # "thunderbird"
     "vlc"
-    # "firefox"
     "inkscape"
-    # "zotero"
     "cowsay"
-    # "obsidian"
+    "cifs-utils"
 )
 
 missing_packages=()
@@ -50,11 +49,35 @@ else
 fi
 
 
-chsh -s $(which zsh)
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+# Change default shell to zsh for current user if not already
+if [ "$SHELL" != "$(which zsh)" ]; then
+    echo "Changing default shell to zsh..."
+    chsh -s "$(which zsh)"
+    echo "Shell changed. You may need to log out and log back in for it to take effect."
+else
+    echo "Default shell is already zsh."
+fi
 
+# Install Oh My Zsh non-interactively if not already installed
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Installing Oh My Zsh..."
+    RUNZSH=no KEEP_ZSHRC=yes \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo "Oh My Zsh installed."
+else
+    echo "Oh My Zsh already installed."
+fi
+
+# Install Powerlevel10k theme if not already present
+THEME_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+if [ ! -d "$THEME_DIR" ]; then
+    echo "Installing Powerlevel10k theme..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$THEME_DIR"
+    echo "Powerlevel10k installed."
+else
+    echo "Powerlevel10k already installed."
+fi
 
 echo "please make sure Zoom, Anki and Telegram, Obsidian, Zotero and Thunderbird are installed manually."
 echo "Make sure to also clone and run the setup in the nvim repo."
