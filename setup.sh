@@ -31,6 +31,7 @@ list_apts=(
     "inkscape"
     "cowsay"
     "cifs-utils"
+    "pandoc"
 )
 
 missing_packages=()
@@ -79,7 +80,7 @@ else
     echo "Powerlevel10k already installed."
 fi
 
-echo "please make sure Zoom, Anki and Telegram, Obsidian, Zotero and Thunderbird are installed manually."
+echo "please make sure Zoom, Anki, Telegram, Obsidian, Zotero and Thunderbird are installed manually."
 echo "Make sure to also clone and run the setup in the nvim repo."
 
 
