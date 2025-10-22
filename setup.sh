@@ -80,7 +80,25 @@ else
     echo "Powerlevel10k already installed."
 fi
 
-echo "please make sure Zoom, Anki, Telegram, Obsidian, Zotero and Thunderbird are installed manually."
+# Ensure Powerlevel10k is set as the active theme in .zshrc
+ZSHRC="$HOME/.zshrc"
+if [ -f "$ZSHRC" ]; then
+    if grep -q '^ZSH_THEME=' "$ZSHRC"; then
+        # Replace any existing theme line
+        sed -i 's/^ZSH_THEME=.*/ZSH_THEME="powerlevel10k\\/powerlevel10k"/' "$ZSHRC"
+        echo "Updated ZSH_THEME in .zshrc."
+    else
+        # Add theme line near the top if missing
+        sed -i '1i ZSH_THEME="powerlevel10k/powerlevel10k"' "$ZSHRC"
+        echo "Added ZSH_THEME to .zshrc."
+    fi
+else
+    echo "Creating .zshrc with Powerlevel10k theme..."
+    echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' > "$ZSHRC"
+fi
+
+echo "please make sure Zoom, Anki, Obsidian and Zotero are installed manually."
+echo "please make sure Telegram, Firefox and Thunderbird are installed with flatpak. You may need to remove snaps and snapd first. Please refer to README.md."
 echo "Make sure to also clone and run the setup in the nvim repo."
 
 
