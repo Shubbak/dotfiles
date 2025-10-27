@@ -32,6 +32,7 @@ list_apts=(
     # "zotero"
     "cowsay"
     # "obsidian"
+    "inkscape"
 )
 
 missing_packages=()
@@ -52,11 +53,17 @@ fi
 
 chsh -s $(which zsh)
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-
+# Install Powerlevel10k theme if not already installed
+if [ ! -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
+    echo "Installing Powerlevel10k theme..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+        "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+else
+    echo "Powerlevel10k already installed."
+fi
 
 echo "please make sure Zoom, Anki and Telegram, Obsidian, Zotero and Thunderbird are installed manually."
 echo "Make sure to also clone and run the setup in the nvim repo."
+echo "Make sure to install and use Fira Code Nerd Font"
 
 
