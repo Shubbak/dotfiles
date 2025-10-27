@@ -18,6 +18,7 @@ list_apts=(
     "python3-pandas"
     "python3-scipy"
     "python3-neovim"
+    "python3-pip"
     "nodejs"
     "tree"
     "neofetch"
