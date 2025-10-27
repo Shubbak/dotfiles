@@ -26,6 +26,7 @@ list_apts=(
     "unzip"
     "cowsay"
     # "fortune"
+    "inkscape"
 )
 
 missing_packages=()
@@ -49,5 +50,5 @@ chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 
-echo "Make sure to also clone and run the setup in the nvim repo."
+echo "Make sure to also clone and run the setup in the nvim repo. Also install Fira Code Nerd Font"
 

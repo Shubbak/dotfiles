@@ -197,3 +197,6 @@ alias pomo="rg 'total office time' ~/.config/nvim/lua/plugins.lua "
 alias pomobreak="rg -A 10 'local presets' ~/.config/nvim/lua/plugins.lua"
 
 alias connect-mouse='rfkill unblock bluetooth && sudo systemctl start bluetooth && bluetoothctl power on && bluetoothctl connect C8:A3:E5:8C:71:B1'
+
+alias rsynch2='rsync -av --delete --progress ~/Repos/h2project/ ~/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/h2project/'
+alias rsyncmaster='rsync -av --delete --progress ~/Repos/Masterthesis/ ~/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/Masterthesis/'
