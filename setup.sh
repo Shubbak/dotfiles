@@ -18,6 +18,7 @@ list_apts=(
     "python3-pandas"
     "python3-scipy"
     "python3-neovim"
+    "python3-pip"
     "nodejs"
     "tree"
     "neofetch"
@@ -28,8 +29,8 @@ list_apts=(
     "unzip"
     "guake"
     "vlc"
-    "inkscape"
     "cowsay"
+    "inkscape"
     "cifs-utils"
     "pandoc"
 )
@@ -100,5 +101,6 @@ fi
 echo "please make sure Zoom, Anki, Obsidian and Zotero are installed manually."
 echo "please make sure Telegram, Firefox and Thunderbird are installed with flatpak. You may need to remove snaps and snapd first. Please refer to README.md."
 echo "Make sure to also clone and run the setup in the nvim repo."
+echo "Make sure to install and use Fira Code Nerd Font"
 
 
