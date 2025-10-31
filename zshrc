@@ -197,3 +197,4 @@ alias pomo="rg 'total office time' ~/.config/nvim/lua/plugins.lua "
 alias pomobreak="rg -A 10 'local presets' ~/.config/nvim/lua/plugins.lua"
 
 alias connect-mouse='rfkill unblock bluetooth && sudo systemctl start bluetooth && bluetoothctl power on && bluetoothctl connect "$(bluetoothctl devices | grep -i '\''BT4.0+2.4G Mouse'\'' | awk '\''{print $2}'\'')"'
+alias thunderbird="flatpak run org.mozilla.Thunderbird"
