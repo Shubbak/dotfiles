@@ -23,3 +23,12 @@
 	rebase = false
 [help]
     autocorrect = 30
+[safe]
+	directory = /media/Festplatte/Dokumente/Repos
+	directory = /media/Festplatte/Dokumente/Repos/gold
+	directory = /media/Festplatte/Dokumente/Repos
+	directory = /media/Festplatte/Dokumente/Repos/al-Arqam
+	directory = /media/Festplatte/Dokumente/Repos/LaTeX_Vorlagen
+	directory = /media/Festplatte/Dokumente/Repos/Masterthesis
+	directory = /media/Festplatte/Dokumente/Repos/tsunnah
+	directory = /media/Festplatte/Dokumente/Repos/variationalcalculus
