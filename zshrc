@@ -202,6 +202,8 @@ alias thunderbird="flatpak run org.mozilla.Thunderbird"
 alias rsynch2='rsync -av --delete --progress ~/Repos/h2project/ ~/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/h2project/'
 alias rsyncmaster='rsync -av --delete --progress ~/Repos/Masterthesis/ ~/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/Masterthesis/'
 
+alias pycalc='python -iq -c "import numpy as np; from numpy import *"'
+
 
 # Flatpak Thunderbird helper
 mailpdf() {
