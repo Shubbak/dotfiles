@@ -201,3 +201,27 @@ alias thunderbird="flatpak run org.mozilla.Thunderbird"
 
 alias rsynch2='rsync -av --delete --progress ~/Repos/h2project/ ~/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/h2project/'
 alias rsyncmaster='rsync -av --delete --progress ~/Repos/Masterthesis/ ~/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/Masterthesis/'
+
+
+# Flatpak Thunderbird helper
+mailpdf() {
+    if [ $# -ne 4 ]; then
+        echo "Usage: mailpdf recipient subject body file"
+        return 1
+    fi
+
+    local to="$1"
+    local subject="$2"
+    local body="$3"
+    local file="$4"
+
+    # Make sure file exists
+    if [ ! -f "$file" ]; then
+        echo "File not found: $file"
+        return 1
+    fi
+
+    # Run Thunderbird via Flatpak with proper quoting
+    flatpak run org.mozilla.Thunderbird -compose \
+        "to='$to',subject='$subject',body='$body',attachment='file://$(realpath "$file")'"
+}
