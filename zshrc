@@ -239,7 +239,7 @@ master() {
         gnome-terminal --tab -- zsh -c "cd $tex_dir && latexmk -pvc; exec zsh" &
         # gnome-terminal --tab & 
 
-        nvim content/02_theorie.tex
+        nvim content/"${2:-02_theorie.tex}"
 
     else
         cd "$project_dir" || return
@@ -256,10 +256,10 @@ variation() {
 
     cd "$project" || return
 
-    zathura script/deutsch/($1)* & 
+    zathura script/deutsch/"${1:-09}"* & 
     gnome-terminal --tab -- zsh -c "cd $project && latexmk -pvc; exec zsh" &
     # gnome-terminal --tab & 
 
-    nvim .
+    nvim "${2:-./221205.tex}"
 }
 
