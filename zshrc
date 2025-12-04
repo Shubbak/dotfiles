@@ -263,3 +263,4 @@ variation() {
     nvim "${2:-./221205.tex}"
 }
 
+alias scanimage='scanimage --resolution 300'
