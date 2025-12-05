@@ -113,8 +113,8 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-alias pullall='for repo in */; do git -C "$repo" pull; done'
-alias statusall='for repo in */; do git -C "$repo" status; done'
+alias pullall='for repo in */; do echo "========== This is $repo ==========" && git -C "$repo" pull; done'
+alias statusall='for repo in */; do echo "========== This is $repo ==========" && git -C "$repo" status; done'
 
 alias gvim="neovide"
 alias cdD='cd /media/Festplatte/Dokumente/Repos'
