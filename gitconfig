@@ -32,3 +32,5 @@
 	directory = /media/Festplatte/Dokumente/Repos/Masterthesis
 	directory = /media/Festplatte/Dokumente/Repos/tsunnah
 	directory = /media/Festplatte/Dokumente/Repos/variationalcalculus
+[credential]
+	helper = store
