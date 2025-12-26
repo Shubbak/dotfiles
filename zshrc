@@ -264,3 +264,5 @@ variation() {
 }
 
 alias scanimage='scanimage --resolution 300'
+
+alias rg='rg -S'
