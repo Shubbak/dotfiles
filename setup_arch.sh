@@ -96,6 +96,6 @@ fi
 
 echo "==> Setup complete"
 echo "Remember to:"
-echo "Check: hdf5-tools, libreoffice, bitwarden"
+echo "Check: hdf5-tools, libreoffice, dropbox, bitwarden"
 echo " - Clone and configure your nvim setup"
 echo " - Log out and back in for shell change to apply"
