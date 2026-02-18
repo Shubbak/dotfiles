@@ -6,38 +6,38 @@ sudo pacman -Syu --noconfirm
 
 echo "==> Installing official packages"
 sudo pacman -S --needed --noconfirm \
+    anki \
+    base-devel \
+    cifs-utils \
+    cowsay \
+    fastfetch \
+    firefox \
     git \
-    zsh \
+    inkscape \
     neovim \
-    ripgrep-all \
+    nodejs \
+    obsidian \
+    pandoc \
     python \
-    python-pip \
     python-numpy \
     python-pandas \
-    python-scipy \
+    python-pip \
     python-pynvim \
+    python-scipy \
     python-virtualenv \
-    nodejs \
-    tree \
-    fastfetch \
-    zathura \
+    ripgrep-all \
     syncthing \
+    telegram-desktop \
+    texlive \
+    thunderbird \
     tldr \
-    wget \
+    tree \
+    ttf-firacode-nerd \
     unzip \
     vlc \
-    cowsay \
-    inkscape \
-    cifs-utils \
-    pandoc \
-    base-devel \
-    anki \
-    obsidian \
-    telegram-desktop \
-    thunderbird \
-    firefox \
-    ttf-firacode-nerd \
-    texlive \
+    wget \
+    zathura \
+    zsh \
 
 
 # --------------------------------------------------
@@ -96,5 +96,6 @@ fi
 
 echo "==> Setup complete"
 echo "Remember to:"
+echo "Check: hdf5-tools, libreoffice, bitwarden"
 echo " - Clone and configure your nvim setup"
 echo " - Log out and back in for shell change to apply"
