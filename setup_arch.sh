@@ -1,43 +1,100 @@
-# -----------------------------
-# Oh My Zsh installation
-# -----------------------------
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "Installing Oh My Zsh..."
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "==> Updating system"
+sudo pacman -Syu --noconfirm
+
+echo "==> Installing official packages"
+sudo pacman -S --needed --noconfirm \
+    git \
+    zsh \
+    neovim \
+    ripgrep-all \
+    python \
+    python-pip \
+    python-numpy \
+    python-pandas \
+    python-scipy \
+    python-pynvim \
+    python-virtualenv \
+    nodejs \
+    tree \
+    fastfetch \
+    zathura \
+    syncthing \
+    tldr \
+    wget \
+    unzip \
+    vlc \
+    cowsay \
+    inkscape \
+    cifs-utils \
+    pandoc \
+    base-devel \
+    anki \
+    obsidian \
+    telegram-desktop \
+    thunderbird \
+    firefox \
+    ttf-firacode-nerd \
+    texlive \
+
+
+# --------------------------------------------------
+# Install yay (AUR helper) if missing
+# --------------------------------------------------
+
+if ! command -v yay &>/dev/null; then
+    echo "==> Installing yay"
+    tmpdir=$(mktemp -d)
+    git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
+    pushd "$tmpdir/yay" >/dev/null
+    makepkg -si --noconfirm
+    popd >/dev/null
+    rm -rf "$tmpdir"
+else
+    echo "==> yay already installed"
+fi
+
+echo "==> Installing AUR packages"
+yay -S --needed --noconfirm \
+    zoom \
+    zotero
+
+# --------------------------------------------------
+# Zsh setup
+# --------------------------------------------------
+
+if [[ "$SHELL" != "$(command -v zsh)" ]]; then
+    echo "==> Setting zsh as default shell"
+    chsh -s "$(command -v zsh)"
+fi
+
+# Oh My Zsh
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+    echo "==> Installing Oh My Zsh"
     RUNZSH=no KEEP_ZSHRC=yes \
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    echo "Oh My Zsh installed."
-else
-    echo "Oh My Zsh already installed."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
-# -----------------------------
-# Powerlevel10k theme
-# -----------------------------
+# Powerlevel10k
 THEME_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-if [ ! -d "$THEME_DIR" ]; then
-    echo "Installing Powerlevel10k theme..."
+if [[ ! -d "$THEME_DIR" ]]; then
+    echo "==> Installing Powerlevel10k"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$THEME_DIR"
-    echo "Powerlevel10k installed."
-else
-    echo "Powerlevel10k already installed."
 fi
 
-# Ensure Powerlevel10k is set in .zshrc
+# Ensure theme is set
 ZSHRC="$HOME/.zshrc"
-if [ -f "$ZSHRC" ]; then
-    if grep -q '^ZSH_THEME=' "$ZSHRC"; then
-        sed -i 's/^ZSH_THEME=.*/ZSH_THEME="powerlevel10k\\/powerlevel10k"/' "$ZSHRC"
-    else
-        sed -i '1i ZSH_THEME="powerlevel10k/powerlevel10k"' "$ZSHRC"
-    fi
+touch "$ZSHRC"
+
+if grep -q '^ZSH_THEME=' "$ZSHRC"; then
+    sed -i 's|^ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|' "$ZSHRC"
 else
-    echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' > "$ZSHRC"
+    echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$ZSHRC"
 fi
 
-# -----------------------------
-# Final notes
-# -----------------------------
-echo "Setup complete!"
-echo "- Make sure Telegram, Firefox and Thunderbird are installed via Flatpak if desired."
-echo "- Ensure Fira Code Nerd Font is installed and configured."
-echo "- Clone and run the setup for your nvim config repository."
+echo "==> Setup complete"
+echo "Remember to:"
+echo " - Clone and configure your nvim setup"
+echo " - Log out and back in for shell change to apply"
