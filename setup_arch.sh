@@ -8,6 +8,7 @@ echo "==> Installing official packages"
 sudo pacman -S --needed --noconfirm \
     anki \
     base-devel \
+    bitwarden \
     cifs-utils \
     cowsay \
     fastfetch \
@@ -58,8 +59,10 @@ fi
 
 echo "==> Installing AUR packages"
 yay -S --needed --noconfirm \
+    dropbox \
     zoom \
     zotero
+    #hdfview 
 
 # --------------------------------------------------
 # Zsh setup
@@ -96,6 +99,6 @@ fi
 
 echo "==> Setup complete"
 echo "Remember to:"
-echo "Check: hdf5-tools, libreoffice, dropbox, bitwarden"
+echo "Check if you want libreoffice, hdf5"
 echo " - Clone and configure your nvim setup"
 echo " - Log out and back in for shell change to apply"
