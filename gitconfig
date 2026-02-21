@@ -1,19 +1,19 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [user]
-	email = a.shubbak@outlook.com
+	email = abdulrahman.shubbak@mailbox.org
 	name = Abdulrahman Shubbak
 [alias]
-	ca = commit -am
+	   ca = commit -am
     cm = commit -m
-	s = status
-	df = diff
-	dc = diff --cached
+	   s = status
+	   df = diff
+	   dc = diff --cached
     amend = commit --amend --no-edit
     lastlog = log -1 HEAD
     uncommit = reset --soft HEAD~1
     graph = log --all --decorate --oneline --graph
-	checkAlias = config --get-regexp alias
+	   checkAlias = config --get-regexp alias
 [init]
 	defaultBranch = main
 [core]
@@ -24,13 +24,6 @@
 [help]
     autocorrect = 30
 [safe]
-	directory = /media/Festplatte/Dokumente/Repos
-	directory = /media/Festplatte/Dokumente/Repos/gold
-	directory = /media/Festplatte/Dokumente/Repos
-	directory = /media/Festplatte/Dokumente/Repos/al-Arqam
-	directory = /media/Festplatte/Dokumente/Repos/LaTeX_Vorlagen
-	directory = /media/Festplatte/Dokumente/Repos/Masterthesis
-	directory = /media/Festplatte/Dokumente/Repos/tsunnah
-	directory = /media/Festplatte/Dokumente/Repos/variationalcalculus
+	   directory = /media/Festplatte/Dokumente/Repos
 [credential]
-	helper = store
+	   helper = store
