@@ -224,9 +224,10 @@ mailpdf() {
     fi
 
     # Run Thunderbird via Flatpak with proper quoting
-    flatpak run org.mozilla.Thunderbird -compose \
+    thunderbird -compose \
         "to='$to',subject='$subject',body='$body',attachment='file://$(realpath "$file")'"
 }
+
 
 master() {
     local project_dir="$HOME/Repos/h2project"
@@ -236,16 +237,14 @@ master() {
     if [ "$1" = "tex" ]; then
         cd "$tex_dir" || return
 
-        gnome-terminal --tab -- zsh -c "cd $tex_dir && latexmk -pvc; exec zsh" &
-        # gnome-terminal --tab & 
+        konsole --new-tab --workdir $tex_dir -e "latexmk -pvc" &
 
         nvim content/"${2:-02_theorie.tex}"
-
     else
         cd "$project_dir" || return
         source "$venv_dir/bin/activate"
 
-        gnome-terminal &
+        konsole &
 
         nvim simulation
     fi
@@ -257,8 +256,7 @@ variation() {
     cd "$project" || return
 
     zathura script/deutsch/"${1:-09}"* & 
-    gnome-terminal --tab -- zsh -c "cd $project && latexmk -pvc; exec zsh" &
-    # gnome-terminal --tab & 
+    konsole --new-tab --workdir "$project" -e "latexmk -pvc" &
 
     nvim "${2:-./221205.tex}"
 }

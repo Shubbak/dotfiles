@@ -2,6 +2,14 @@
 
 set -euo pipefail
 
+ask_yes_no() {
+    local prompt="$1"
+    local ans
+    read -rp "$prompt (y/n): " ans
+    ans=${ans,,}  # lowercase
+    [[ "$ans" =~ ^(y|yes)$ ]]
+}
+
 echo "==> Updating system"
 sudo pacman -Syu --noconfirm
 
@@ -14,13 +22,16 @@ sudo pacman -S --needed --noconfirm \
     cowsay \
     fastfetch \
     firefox \
+    geeqie \
     git \
     inkscape \
     konsole \
-    libreoffice \
+    ktouch \
+    libreoffice-fresh \
     neovim \
     nodejs \
     obsidian \
+    openconnect \
     pandoc \
     python \
     python-numpy \
@@ -29,6 +40,7 @@ sudo pacman -S --needed --noconfirm \
     python-pynvim \
     python-scipy \
     python-virtualenv \
+    qbittorrent \
     ripgrep-all \
     syncthing \
     telegram-desktop \
@@ -119,4 +131,6 @@ echo "==> Setup complete"
 echo "Remember to:"
 echo "Check if you want hdf5"
 echo " - Clone and configure your nvim setup"
-echo " - Log out and back in for shell change to apply"
+if ask_yes_no "Do you want to reboot now?"; then
+    reboot 
+fi
