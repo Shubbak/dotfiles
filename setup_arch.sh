@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
 echo "==> Updating system"
@@ -15,6 +16,8 @@ sudo pacman -S --needed --noconfirm \
     firefox \
     git \
     inkscape \
+    konsole \
+    libreoffice \
     neovim \
     nodejs \
     obsidian \
@@ -97,8 +100,23 @@ else
     echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$ZSHRC"
 fi
 
+echo "Creating symlinks..."
+
+dotdir="$HOME/Repos/dotfiles"
+
+mkdir -p $HOME/.config/zathura
+
+ln -sf $dotdir/gitconfig $HOME/.gitconfig
+ln -sf $dotdir/zathurarc $HOME/.config/zathura/zathurarc
+ln -sf $dotdir/latexmkrc $HOME/.latexmkrc
+ln -sf $dotdir/zshrc $HOME/.zshrc
+ln -sf $dotdir/p10.zsh $HOME/.p10k.zsh
+
+echo "Symlinks created!"
+
+
 echo "==> Setup complete"
 echo "Remember to:"
-echo "Check if you want libreoffice, hdf5"
+echo "Check if you want hdf5"
 echo " - Clone and configure your nvim setup"
 echo " - Log out and back in for shell change to apply"
