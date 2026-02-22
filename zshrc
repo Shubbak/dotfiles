@@ -261,6 +261,8 @@ variation() {
     nvim "${2:-./221205.tex}"
 }
 
-alias scanimage='scanimage --resolution 300'
+
+alias scanimage='scanimage --format=pdf -d 'airscan:e0:ET2850' --resolution 300'
+
 
 alias rg='rg -S'

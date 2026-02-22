@@ -42,13 +42,16 @@ sudo pacman -S --needed --noconfirm \
     python-virtualenv \
     qbittorrent \
     ripgrep-all \
+    speedtest-cli \
     syncthing \
     telegram-desktop \
     texlive \
+    texlive-lang{arabic,german,english} \
     thunderbird \
     tldr \
     tree \
     ttf-firacode-nerd \
+    ttf-scheherazade-new \
     unzip \
     vlc \
     wget \
