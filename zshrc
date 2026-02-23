@@ -262,7 +262,23 @@ variation() {
 }
 
 
-alias scanimage='scanimage --format=pdf -d 'airscan:e0:ET2850' --resolution 300'
+alias scanimage='scanimage --format=pnm -d "airscan:e0:ET2850" --resolution 300'
+
+scanpdf() {
+    filename=$1
+    tmpfiles=(); n=2; while true; do
+    tmpfile=$(mktemp --suffix=pnm)
+    scanimage --format=pnm -d "airscan:e0:ET2850" --resolution 300 > "$tmpfile"
+    tmpfiles+=("$tmpfile")
+        read "ans?Place page $n on the scanner and press Enter. Type q when finished. "
+        [[ "$ans" == "q" ]] && break
+        tmpfile=$(mktemp --suffix=pnm)
+        scanimage --format=pnm -d "airscan:e0:ET2850" --resolution 300 > "$tmpfile"
+        tmpfiles+=("$tmpfile")
+        ((n++))
+    done; img2pdf "${tmpfiles[@]}" -o "$filename"
+    rm -f "${tmpfiles[@]}"
+}
 
 
 alias rg='rg -S'
