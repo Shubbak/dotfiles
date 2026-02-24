@@ -121,8 +121,8 @@ alias sa='for repo in */; do echo "========== This is $repo ==========" && git -
 
 alias gvim="neovide"
 alias cdD='cd /media/Festplatte/Dokumente/Repos'
-alias cdDp='cd /media/Festplatte/Dokumente/Repos&&pullall'
-alias cdR='cd ~/Repos&&pullall'
+alias cdDp='cd /media/Festplatte/Dokumente/Repos&&pa'
+alias cdR='cd ~/Repos&&pa'
 alias py='python3'
 
 export NVM_DIR="$HOME/.nvm"
