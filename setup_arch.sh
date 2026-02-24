@@ -50,6 +50,7 @@ sudo pacman -S --needed --noconfirm \
     base-devel \
     cifs-utils \
     cowsay \
+    eza \
     firefox \
     geeqie \
     git \
@@ -73,7 +74,6 @@ sudo pacman -S --needed --noconfirm \
     texlive-lang{arabic,german,english} \
     thunderbird \
     tldr \
-    tree \
     ttf-firacode-nerd \
     ttf-scheherazade-new \
     unzip \
