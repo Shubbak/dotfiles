@@ -109,9 +109,9 @@ optional_install obsidian
 optional_install libreoffice-fresh
 
 echo "You should have nvim now. Do you want to remove vim-runtime, vim, ex-vi-compat?" 
-optional_remove vim-runtime
-optional_remove vim
 optional_remove ex-vi-compat
+optional_remove vim
+optional_remove vim-runtime
 
 echo "You should have nvim now. Do you want to remove nano? Please confirm after the script, that $EDITOR=nvim. "
 optional_remove nano-syntax-highlighting
