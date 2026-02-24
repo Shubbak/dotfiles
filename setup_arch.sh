@@ -87,6 +87,7 @@ sudo pacman -S --needed --noconfirm \
 optional_install anki
 optional_install element-desktop
 optional_install fastfetch
+optional_install img2pdf
 optional_install ktouch
 optional_install openconnect
 optional_install qbittorrent
