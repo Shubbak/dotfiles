@@ -98,6 +98,9 @@ optional_install telegram-desktop
 if ask_yes_no "You should have nvim now. Do you want to remove vim-runtime, vim, ex-vi-compat? "; then
     sudo pacman -Rs --noconfirm ex-vi-compat
 fi
+if ask_yes_no "You should have nvim now. Do you want to remove nano? Please confirm after the script, that $EDITOR=nvim. "; then
+    sudo pacman -Rs --noconfirm nano
+fi
 
 # --------------------------------------------------
 # Install yay (AUR helper) if missing
