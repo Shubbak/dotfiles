@@ -199,8 +199,8 @@ alias pomobreak="rg -A 10 'local presets' ~/.config/nvim/lua/plugins.lua"
 alias connect-mouse='rfkill unblock bluetooth && sudo systemctl start bluetooth && bluetoothctl power on && bluetoothctl connect "$(bluetoothctl devices | grep -i '\''BT4.0+2.4G Mouse'\'' | awk '\''{print $2}'\'')"'
 # alias thunderbird="flatpak run org.mozilla.Thunderbird"
 
-alias rsynch2='rsync -av --delete --progress ~/Repos/h2project/ ~/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/h2project/'
-alias rsyncmaster='rsync -av --delete --progress ~/Repos/Masterthesis/ ~/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/Masterthesis/'
+alias rsynch2='rsync -avhP --delete  ~/Repos/h2project/ /servers/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/h2project/'
+alias rsyncmaster='rsync -avhP --delete  ~/Repos/Masterthesis/ /servers/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/Masterthesis/'
 
 alias pycalc='python3 -iq -c "import numpy as np; from numpy import *"'
 
