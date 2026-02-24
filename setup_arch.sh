@@ -10,28 +10,55 @@ ask_yes_no() {
     [[ "$ans" =~ ^(y|yes)$ ]]
 }
 
+optional_install() {
+    local pkg="$1"
+
+    if pacman -Q "$pkg" &>/dev/null; then
+        echo "$pkg already intalled - skipping"
+        return
+    fi
+
+    if ask_yes_no "Install $pkg?"; then
+        sudo pacman -S --needed --noconfirm "$pkg"
+    else
+        echo "Skipping installation of $pkg"
+    fi
+}
+
+optional_yay() {
+    local pkg="$1"
+
+    if yay -Q "$pkg" &>/dev/null; then
+        echo "$pkg already intalled - skipping"
+        return
+    fi
+
+    if ask_yes_no "Install $pkg?"; then
+        yay -S --needed --noconfirm "$pkg"
+    else
+        echo "Skipping installation of $pkg"
+    fi
+}
+
 echo "==> Updating system"
 sudo pacman -Syu --noconfirm
 
+# non-optional packages
 echo "==> Installing official packages"
 sudo pacman -S --needed --noconfirm \
-    anki \
-    base-devel \
     bitwarden \
+    base-devel \
     cifs-utils \
     cowsay \
-    fastfetch \
     firefox \
     geeqie \
     git \
     inkscape \
     konsole \
-    ktouch \
     libreoffice-fresh \
     neovim \
     nodejs \
     obsidian \
-    openconnect \
     pandoc \
     python \
     python-numpy \
@@ -40,11 +67,8 @@ sudo pacman -S --needed --noconfirm \
     python-pynvim \
     python-scipy \
     python-virtualenv \
-    qbittorrent \
     ripgrep-all \
-    speedtest-cli \
     syncthing \
-    telegram-desktop \
     texlive \
     texlive-lang{arabic,german,english} \
     thunderbird \
@@ -56,8 +80,26 @@ sudo pacman -S --needed --noconfirm \
     vlc \
     wget \
     zathura \
-    zsh \
+    zsh
 
+# optional packages
+
+optional_install anki
+optional_install element-desktop
+optional_install fastfetch
+optional_install img2pdf
+optional_install ktouch
+optional_install openconnect
+optional_install qbittorrent
+optional_install speedtest-cli
+optional_install telegram-desktop
+
+if ask_yes_no "You should have nvim now. Do you want to remove vim-runtime, vim, ex-vi-compat? "; then
+    sudo pacman -Rs --noconfirm ex-vi-compat
+fi
+if ask_yes_no "You should have nvim now. Do you want to remove nano? Please confirm after the script, that $EDITOR=nvim. "; then
+    sudo pacman -Rs --noconfirm nano
+fi
 
 # --------------------------------------------------
 # Install yay (AUR helper) if missing
@@ -76,11 +118,10 @@ else
 fi
 
 echo "==> Installing AUR packages"
-yay -S --needed --noconfirm \
-    dropbox \
-    zoom \
-    zotero
-    #hdfview 
+optional_yay dropbox 
+optional_yay hdfview 
+optional_yay zoom 
+optional_yay zotero
 
 # --------------------------------------------------
 # Zsh setup
@@ -105,32 +146,34 @@ if [[ ! -d "$THEME_DIR" ]]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$THEME_DIR"
 fi
 
-# Ensure theme is set
-ZSHRC="$HOME/.zshrc"
-touch "$ZSHRC"
-
-if grep -q '^ZSH_THEME=' "$ZSHRC"; then
-    sed -i 's|^ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|' "$ZSHRC"
-else
-    echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$ZSHRC"
-fi
+# # Ensure theme is set
+# ZSHRC="$HOME/.zshrc"
+# touch "$ZSHRC"
+# 
+# if grep -q '^ZSH_THEME=' "$ZSHRC"; then
+    # sed -i 's|^ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|' "$ZSHRC"
+# else
+    # echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$ZSHRC"
+# fi
 
 echo "Creating symlinks..."
 
 dotdir="$HOME/Repos/dotfiles"
 
-mkdir -p $HOME/.config/zathura
+mkdir -p "$HOME/.config/zathura"
 
-ln -sf $dotdir/gitconfig $HOME/.gitconfig
-ln -sf $dotdir/zathurarc $HOME/.config/zathura/zathurarc
-ln -sf $dotdir/latexmkrc $HOME/.latexmkrc
-ln -sf $dotdir/zshrc $HOME/.zshrc
-# ln -sf $dotdir/p10.zsh $HOME/.p10k.zsh
+ln -sf "$dotdir/gitconfig" "$HOME/.gitconfig"
+ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
+ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
+ln -sf "$dotdir/zshrc" "$HOME/.zshrc"
+# ln -sf "$dotdir/p10.zsh" "$HOME/.p10k.zsh"
 
 echo "Symlinks created!"
 
 # configure p10k
-konsole 
+if ask_yes_no "open new konsole to run p10k configuration wizard?"; then
+    konsole --nofork &
+fi
 
 echo "==> Setup complete"
 echo "Remember to:"
