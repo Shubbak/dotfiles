@@ -91,7 +91,6 @@ optional_install img2pdf
 optional_install ktouch
 optional_install openconnect
 optional_install qbittorrent
-optional_install ranger
 optional_install speedtest-cli
 optional_install telegram-desktop
 
