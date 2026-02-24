@@ -29,7 +29,7 @@ optional_yay() {
     local pkg="$1"
 
     if yay -Q "$pkg" &>/dev/null; then
-        echo "$pkg already intalled - skipping"
+        echo "$pkg already installed - skipping"
         return
     fi
 
@@ -94,11 +94,16 @@ optional_install qbittorrent
 optional_install speedtest-cli
 optional_install telegram-desktop
 
-if ask_yes_no "You should have nvim now. Do you want to remove vim-runtime, vim, ex-vi-compat? "; then
-    sudo pacman -Rs --noconfirm ex-vi-compat
+if pacman -Q ex-vi-compat &>/dev/null; then
+    if ask_yes_no "You should have nvim now. Do you want to remove vim-runtime, vim, ex-vi-compat? "; then
+        sudo pacman -Rs --noconfirm ex-vi-compat vim vim-runtime
+    fi
 fi
-if ask_yes_no "You should have nvim now. Do you want to remove nano? Please confirm after the script, that $EDITOR=nvim. "; then
-    sudo pacman -Rs --noconfirm nano
+
+if pacman -Q nano-syntax-highlighting &>/dev/null; then
+    if ask_yes_no "You should have nvim now. Do you want to remove nano? Please confirm after the script, that $EDITOR=nvim. "; then
+        sudo pacman -Rs --noconfirm nano-syntax-highlighting nano
+    fi
 fi
 
 # --------------------------------------------------
