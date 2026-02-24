@@ -95,6 +95,9 @@ optional_install ranger
 optional_install speedtest-cli
 optional_install telegram-desktop
 
+if ask_yes_no "You should have nvim now. Do you want to remove vim-runtime, vim, ex-vi-compat? "; then
+    sudo pacman -Rs --noconfirm ex-vi-compat
+fi
 
 # --------------------------------------------------
 # Install yay (AUR helper) if missing
