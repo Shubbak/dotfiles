@@ -60,8 +60,9 @@ sudo pacman -Syu --noconfirm
 # non-optional packages
 echo "==> Installing official packages"
 sudo pacman -S --needed --noconfirm \
-    bitwarden \
     base-devel \
+    bitwarden \
+    borg \
     cifs-utils \
     cowsay \
     eza \
