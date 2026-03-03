@@ -286,5 +286,5 @@ scanpdf() {
 
 alias rg='rg -S'
 
-alias ls='eza -lo --total-size'
+alias ls='eza -lob --total-size'
 
