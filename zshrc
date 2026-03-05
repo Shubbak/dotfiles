@@ -265,22 +265,37 @@ variation() {
 }
 
 
-alias scanimage='scanimage --format=pnm -d "airscan:e0:ET2850" --resolution 300'
+alias scanimage='scanimage --format=png -d "airscan:e0:ET2850" --resolution 300'
 
 scanpdf() {
+    read "ans?Do you want [c]olour or [g]ray? "
+    if [[ "$ans" == "c" ]]; then
+        mode="color"
+    else
+        mode="gray"
+    fi
     filename=$1
+    tmppdf=$(mktemp --suffix=pdf)
     tmpfiles=(); n=2; while true; do
     tmpfile=$(mktemp --suffix=pnm)
-    scanimage --format=pnm -d "airscan:e0:ET2850" --resolution 300 > "$tmpfile"
+    scanimage --mode="$mode" --format=pnm -d "airscan:e0:ET2850" --resolution 300 > "$tmpfile"
     tmpfiles+=("$tmpfile")
         read "ans?Place page $n on the scanner and press Enter. Type q when finished. "
         [[ "$ans" == "q" ]] && break
         tmpfile=$(mktemp --suffix=pnm)
-        scanimage --format=pnm -d "airscan:e0:ET2850" --resolution 300 > "$tmpfile"
+        scanimage --mode="$mode" --format=pnm -d "airscan:e0:ET2850" --resolution 300 > "$tmpfile"
         tmpfiles+=("$tmpfile")
         ((n++))
-    done; img2pdf "${tmpfiles[@]}" -o "$filename"
+    done; img2pdf -s 300dpi -o "$tmppdf" "${tmpfiles[@]}" 
     rm -f "${tmpfiles[@]}"
+    read "ans?Do you want to [c]ompress the pdf or [n]ot (recommended for text on screen, not for printing or for pictures)? "
+    if [[ "$ans" == "c" ]] ; then
+        gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$filename" "$tmppdf"
+    else
+        mv "$tmppdf" "$filename"
+        rm -f "$tmppdf"
+    fi
+
 }
 
 
