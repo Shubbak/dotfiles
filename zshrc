@@ -303,3 +303,4 @@ alias rg='rg -S'
 
 alias ls='eza -lob --total-size'
 
+alias linkinpark='vlc -q --qt-start-minimized $HOME/Musik/LinkinPark&'
