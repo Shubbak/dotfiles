@@ -249,7 +249,7 @@ master() {
 
         konsole &
 
-        nvim simulation
+        nvim bessy/phexphem.py
     fi
 }
 
@@ -268,13 +268,20 @@ variation() {
 alias scanimage='scanimage --format=png -d "airscan:e0:ET2850" --resolution 300'
 
 scanpdf() {
+    filename=$1
+    if ls "$1" &> /dev/null; then 
+        read "over?Warning! "$1" already exists. Overwrite? (y/n)" 
+        if ! [[ "$over" == "y" ]]; then
+            return 1
+        fi
+    fi
+
     read "ans?Do you want [c]olour or [g]ray? "
     if [[ "$ans" == "c" ]]; then
         mode="color"
     else
         mode="gray"
     fi
-    filename=$1
     tmppdf=$(mktemp --suffix=pdf)
     tmpfiles=(); n=2; while true; do
     tmpfile=$(mktemp --suffix=pnm)
@@ -288,6 +295,7 @@ scanpdf() {
         ((n++))
     done; img2pdf -s 300dpi -o "$tmppdf" "${tmpfiles[@]}" 
     rm -f "${tmpfiles[@]}"
+    echo "The file has size: $(/usr/bin/ls -sh $tmppdf)"
     read "ans?Do you want to [c]ompress the pdf or [n]ot (recommended for text on screen, not for printing or for pictures)? "
     if [[ "$ans" == "c" ]] ; then
         gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$filename" "$tmppdf"
