@@ -185,8 +185,7 @@ mkdir -p "$HOME/.config/zathura"
 ln -sf "$dotdir/gitconfig" "$HOME/.gitconfig"
 ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
 ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
-ln -sf "$dotdir/zshrc" "$HOME/.zshrc"
-# ln -sf "$dotdir/p10.zsh" "$HOME/.p10k.zsh"
+ln -sf "$dotdir/zsh" "$HOME/.config/zsh"
 
 echo "Symlinks created!"
 

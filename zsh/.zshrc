@@ -1,0 +1,12 @@
+source ~/.config/zsh/env.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.config/zsh/prompt/.p10k.zsh ]] || source ~/.config/zsh/prompt/.p10k.zsh
+
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+
+source ~/.config/zsh/plugins.zsh
+source ~/.config/zsh/aliases.zsh
+
+source ~/.config/zsh/functions.zsh
