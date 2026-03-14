@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Preferred
+Comment=Chose preferred DE for each user
+Exec=/usr/local/bin/launch_preferred_session
+Type=Application
+DesktopNames=Preferred
