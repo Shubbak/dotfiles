@@ -187,7 +187,10 @@ ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
 ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
 ln -sf "$dotdir/zsh" "$HOME/.config/zsh"
 ln -sf "$dotdir/hypr" "$HOME/.config/hypr"
+ln -sf "$dotdir/waybar" "$HOME/.config/waybar"
 
+sudo ln $HOME/Repos/dotfiles/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
+sudo ln $HOME/Repos/dotfiles/sddm/launch_preferred_session /usr/local/bin/launch_preferred_session
 
 echo "Symlinks created!"
 

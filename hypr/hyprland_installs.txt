@@ -1,0 +1,6 @@
+hyprland \
+swaync \
+hyprpaper \
+hyprlauncher \
+pipewire \ 
+wireplumber \
