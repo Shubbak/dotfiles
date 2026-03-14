@@ -186,6 +186,8 @@ ln -sf "$dotdir/gitconfig" "$HOME/.gitconfig"
 ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
 ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
 ln -sf "$dotdir/zsh" "$HOME/.config/zsh"
+ln -sf "$dotdir/hypr" "$HOME/.config/hypr"
+
 
 echo "Symlinks created!"
 
