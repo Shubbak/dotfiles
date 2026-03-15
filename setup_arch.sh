@@ -108,6 +108,7 @@ optional_install speedtest-cli
 optional_install telegram-desktop
 optional_install obsidian
 optional_install libreoffice-fresh
+optional_install signal-desktop
 
 echo "You should have nvim now. Do you want to remove vim-runtime, vim, ex-vi-compat?" 
 optional_remove ex-vi-compat
