@@ -153,4 +153,8 @@ function gitend() {
     git ca "$1" && git push
 }
 
+nvim_now(){
+    nvim "$(date +%F_%H-%M-%S)".md
+}
+
 

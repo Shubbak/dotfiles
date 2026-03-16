@@ -112,3 +112,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+
+if [[ $PWD == "$HOME/Repos/h2project" && -f ~/.venv/h2/bin/activate ]]; then
+  source ~/.venv/h2/bin/activate
+fi
+

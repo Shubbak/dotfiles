@@ -59,41 +59,7 @@ sudo pacman -Syu --noconfirm
 
 # non-optional packages
 echo "==> Installing official packages"
-sudo pacman -S --needed --noconfirm \
-    base-devel \
-    bitwarden \
-    borg \
-    cifs-utils \
-    cowsay \
-    eza \
-    firefox \
-    geeqie \
-    git \
-    inkscape \
-    konsole \
-    neovim \
-    nodejs \
-    pandoc \
-    python \
-    python-numpy \
-    python-pandas \
-    python-pip \
-    python-pynvim \
-    python-scipy \
-    python-virtualenv \
-    ripgrep-all \
-    syncthing \
-    texlive \
-    texlive-lang{arabic,german,english} \
-    thunderbird \
-    tldr \
-    ttf-firacode-nerd \
-    ttf-scheherazade-new \
-    unzip \
-    vlc \
-    wget \
-    zathura \
-    zsh
+sudo pacman -S --needed --noconfirm - < $HOME/Repos/dotfiles/package_list.txt
 
 # optional packages
 
@@ -177,6 +143,11 @@ fi
     # echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$ZSHRC"
 # fi
 
+echo "Installing hyprland-specific packages..."
+
+sudo pacman -S - < $HOME/Repos/dotfiles/hypr/stop_annoying_me/hyprland_installs.txt
+yay -S - < $HOME/Repos/dotfiles/hypr/stop_annoying_me/hyprland_installs_yay.txt
+
 echo "Creating symlinks..."
 
 dotdir="$HOME/Repos/dotfiles"
@@ -190,8 +161,10 @@ ln -sf "$dotdir/zsh" "$HOME/.config/zsh"
 ln -sf "$dotdir/hypr" "$HOME/.config/hypr"
 ln -sf "$dotdir/waybar" "$HOME/.config/waybar"
 
-sudo ln $HOME/Repos/dotfiles/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
-sudo ln $HOME/Repos/dotfiles/sddm/launch_preferred_session /usr/local/bin/launch_preferred_session
+if ask_yes_no "Do you want to manage SDDM on a user-preference base?"; then
+    sudo ln $dotdir/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
+    sudo ln $dotdir/sddm/launch_preferred_session /usr/local/bin/launch_preferred_session
+fi
 
 echo "Symlinks created!"
 
