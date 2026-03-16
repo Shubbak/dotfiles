@@ -35,3 +35,9 @@ vlc
 wget
 zathura
 zsh
+zoxide
+less
+wl-clipboard
+zathura-cb
+zathura-pdf-poppler
+man

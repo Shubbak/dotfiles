@@ -81,7 +81,7 @@ optional_remove ex-vi-compat
 optional_remove vim
 optional_remove vim-runtime
 
-echo "You should have nvim now. Do you want to remove nano? Please confirm after the script, that $EDITOR=nvim. "
+echo "You should have nvim now. Do you want to remove nano? Please confirm after the script, that \$EDITOR=nvim. "
 optional_remove nano-syntax-highlighting
 optional_remove nano
 
@@ -145,8 +145,8 @@ fi
 
 echo "Installing hyprland-specific packages..."
 
-sudo pacman -S - < $HOME/Repos/dotfiles/hypr/stop_annoying_me/hyprland_installs.txt
-yay -S - < $HOME/Repos/dotfiles/hypr/stop_annoying_me/hyprland_installs_yay.txt
+sudo pacman --needed -S - < $HOME/Repos/dotfiles/hypr/stop_annoying_me/hyprland_installs.txt
+yay --needed -S - < $HOME/Repos/dotfiles/hypr/stop_annoying_me/hyprland_installs_yay.txt
 
 echo "Creating symlinks..."
 
@@ -157,13 +157,14 @@ mkdir -p "$HOME/.config/zathura"
 ln -sf "$dotdir/gitconfig" "$HOME/.gitconfig"
 ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
 ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
-ln -sf "$dotdir/zsh" "$HOME/.config/zsh"
-ln -sf "$dotdir/hypr" "$HOME/.config/hypr"
-ln -sf "$dotdir/waybar" "$HOME/.config/waybar"
+ln -sfT "$dotdir/zsh" "$HOME/.config/zsh"
+ln -sf "$dotdir/zsh/.zshrc" "$HOME/.zshrc"
+ln -sfT "$dotdir/hypr" "$HOME/.config/hypr"
+ln -sfT "$dotdir/waybar" "$HOME/.config/waybar"
 
 if ask_yes_no "Do you want to manage SDDM on a user-preference base?"; then
-    sudo ln $dotdir/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
-    sudo ln $dotdir/sddm/launch_preferred_session /usr/local/bin/launch_preferred_session
+    sudo cp $dotdir/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
+    sudo cp $dotdir/sddm/launch_preferred_session /usr/local/bin/launch_preferred_session
 fi
 
 echo "Symlinks created!"
