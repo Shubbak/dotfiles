@@ -23,7 +23,9 @@ python-virtualenv
 ripgrep-all
 syncthing
 texlive
-texlive-lang{arabic,german,english}
+texlive-langarabic
+texlive-langgerman
+texlive-langenglish
 thunderbird
 tldr
 ttf-firacode-nerd

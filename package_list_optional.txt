@@ -1,2 +1,0 @@
-anki
-element-desktop
