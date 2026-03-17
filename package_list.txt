@@ -41,3 +41,5 @@ wl-clipboard
 zathura-cb
 zathura-pdf-poppler
 man
+sane
+sane-airscan

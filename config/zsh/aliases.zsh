@@ -17,7 +17,7 @@ alias rsynch2='rsync -avhP --delete  ~/Repos/h2project/ /servers/exp4_all/02_peo
 alias rsyncmaster='rsync -avhP --delete  ~/Repos/Masterthesis/ /servers/exp4_all/02_people/Shubbak_Abdulrahman/04-thesis/Masterthesis/'
 
 alias pycalc='python3 -iq -c "import numpy as np; from numpy import *"'
-alias scanimage='scanimage --format=png -d "airscan:e0:ET2850" --resolution 300'
+alias scanimage='scanimage --format=png -d "airscan:w0:EPSON ET-2850 Series" --resolution 300'
 alias rg='rg -S'
 
 alias ls='eza -lob --total-size'
