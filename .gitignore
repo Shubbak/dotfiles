@@ -1,2 +1,9 @@
 .zsh_history
 .zcomp*
+# Ignore plugin directory
+plugged/
+neovim/
+lazy-lock.json
+package-lock.json
+package.json
+node_modules/

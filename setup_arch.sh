@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+dotdir="$HOME/Repos/dotfiles"
+configdir="$dotdir/config"
+
 ask_yes_no() {
     local prompt="$1"
     local ans
@@ -145,22 +148,28 @@ fi
 
 echo "Installing hyprland-specific packages..."
 
-sudo pacman --needed -S - < $HOME/Repos/dotfiles/hypr/stop_annoying_me/hyprland_installs.txt
-yay --needed -S - < $HOME/Repos/dotfiles/hypr/stop_annoying_me/hyprland_installs_yay.txt
+sudo pacman --needed -S - < $configdir/hypr/stop_annoying_me/hyprland_installs.txt
+yay --needed -S - < $configdir/hypr/stop_annoying_me/hyprland_installs_yay.txt
+
+
+echo "executing nvim setup script..."
+chmod +x $configdir/nvim/scripts/script_arch.sh
+
+$configdir/nvim/scripts/script_arch.sh
 
 echo "Creating symlinks..."
 
-dotdir="$HOME/Repos/dotfiles"
 
 mkdir -p "$HOME/.config/zathura"
 
 ln -sf "$dotdir/gitconfig" "$HOME/.gitconfig"
 ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
 ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
-ln -sfT "$dotdir/zsh" "$HOME/.config/zsh"
-ln -sf "$dotdir/zsh/.zshrc" "$HOME/.zshrc"
-ln -sfT "$dotdir/hypr" "$HOME/.config/hypr"
-ln -sfT "$dotdir/waybar" "$HOME/.config/waybar"
+ln -sf "$configdir/zsh/.zshrc" "$HOME/.zshrc"
+ln -sfT "$configdir/zsh" "$HOME/.config/zsh"
+ln -sfT "$configdir/hypr" "$HOME/.config/hypr"
+ln -sfT "$configdir/waybar" "$HOME/.config/waybar"
+ln -sfT "$configdir/nvim" "$HOME/.config/nvim"
 
 if ask_yes_no "Do you want to manage SDDM on a user-preference base?"; then
     sudo cp $dotdir/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
