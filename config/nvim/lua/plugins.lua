@@ -77,7 +77,8 @@ require("lazy").setup({
         "neovim/nvim-lspconfig",
         ft = {"python", "tex"},
         config = function()
-            local lspconfig = require("lspconfig")
+            -- local lspconfig = require("lspconfig")
+            vim.lsp.config()
 
             lspconfig.texlab.setup {} 
             lspconfig.pyright.setup {}
