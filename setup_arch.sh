@@ -4,6 +4,8 @@ set -euo pipefail
 
 dotdir="$HOME/Repos/dotfiles"
 configdir="$dotdir/config"
+MACHINES=$configdir/hypr/config/machines
+HOST=$(hostname)
 
 ask_yes_no() {
     local prompt="$1"
@@ -162,6 +164,13 @@ echo "Creating symlinks..."
 
 mkdir -p "$HOME/.config/zathura"
 
+if [ ! -d "$MACHINES/$HOST" ]; then
+    echo "Warning: no machine config for '$HOST'. Available are:"
+    ls "$MACHINES"
+    echo "Falling back to safe defaults..."
+    HOST=fallback
+fi
+
 ln -sf "$dotdir/gitconfig" "$HOME/.gitconfig"
 ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
 ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
@@ -170,6 +179,7 @@ ln -sfT "$configdir/zsh" "$HOME/.config/zsh"
 ln -sfT "$configdir/hypr" "$HOME/.config/hypr"
 ln -sfT "$configdir/waybar" "$HOME/.config/waybar"
 ln -sfT "$configdir/nvim" "$HOME/.config/nvim"
+ln -sfn "$MACHINES/$HOST" "$MACHINES/current"
 
 if ask_yes_no "Do you want to manage SDDM on a user-preference base?"; then
     sudo cp $dotdir/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
