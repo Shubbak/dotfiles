@@ -14,6 +14,21 @@ ask_yes_no() {
     [[ "$ans" =~ ^(y|yes)$ ]]
 }
 
+optional_install() {
+    local pkg="$1"
+
+    if pacman -Q "$pkg" &>/dev/null; then
+        echo "$pkg already intalled - skipping"
+        return
+    fi
+
+    if ask_yes_no "Install $pkg?"; then
+        sudo pacman -S --needed --noconfirm "$pkg"
+    else
+        echo "Skipping installation of $pkg"
+    fi
+}
+
 # 1. Update system
 # echo "[1/5] Updating system..."
 # sudo pacman -Syu --noconfirm
@@ -24,44 +39,32 @@ sudo pacman -S --needed --noconfirm \
   neovim git ripgrep fd python-pynvim nodejs 
 
 # 3. Optional: Tree-sitter
-if ask_yes_no "Do you want to install tree-sitter CLI (for Treesitter parsers)?"; then
-    sudo pacman -S --needed --noconfirm tree-sitter-cli
-fi
+echo "tree-sitter-cli is a tool for parsing files according to types and enabling syntax highlighting and similar"
+optional_install tree-sitter-cli
 
 # 4. Optional: LSP servers
-if ask_yes_no "Do you want to install common LSP servers (Python, TypeScript, Bash, Lua, LaTeX)?"; then
-    sudo pacman -S --needed --noconfirm \
-        pyright \
-        typescript-language-server \
-        bash-language-server \
-        lua-language-server \
-        texlab
-    echo "✅ LSP servers installed."
+
+if pacman -Q pyright typescript-language-server bash-language-server lua-language-server texlab &>/dev/null; then
+    echo "LSP servers already installed - skipping"
+else
+    if ask_yes_no "Do you want to install common LSP servers (Python, TypeScript, Bash, Lua, LaTeX)?"; then
+        sudo pacman -S --needed --noconfirm \
+            pyright \
+            typescript-language-server \
+            bash-language-server \
+            lua-language-server \
+            texlab
+        echo "✅ LSP servers installed."
+    fi
 fi
+
+
 
 # 5. Optional: Neovide
-if ask_yes_no "Do you want to install Neovide (GUI for Neovim)?"; then
-    if pacman -Si neovide &>/dev/null; then
-        sudo pacman -S --noconfirm neovide
-    else
-        echo "Neovide not in official repos. Installing via AUR..."
-        if ! command_exists yay; then
-            echo "Installing yay (AUR helper)..."
-            git clone https://aur.archlinux.org/yay.git /tmp/yay
-            pushd /tmp/yay
-            makepkg -si --noconfirm
-            popd
-        fi
-        yay -S --noconfirm neovide
-    fi
-    echo "✅ Neovide installed."
-fi
+optional_install neovide
 
 # 6. Fonts (Nerd Font for icons)
-if ask_yes_no "Do you want to install Nerd Font (Fira Code) for icons?"; then
-    sudo pacman -S --needed --noconfirm ttf-firacode-nerd
-    fc-cache -fv
-fi
+optional_install ttf-firacode-nerd
 
 echo ""
 echo "=== Setup Complete ==="
