@@ -7,3 +7,4 @@ lazy-lock.json
 package-lock.json
 package.json
 node_modules/
+config/hypr/config/machines/current/
