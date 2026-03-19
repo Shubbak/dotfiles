@@ -78,10 +78,12 @@ require("lazy").setup({
         ft = {"python", "tex"},
         config = function()
             -- local lspconfig = require("lspconfig")
-            vim.lsp.config()
 
-            lspconfig.texlab.setup {} 
-            lspconfig.pyright.setup {}
+            -- lspconfig..setup {} 
+            -- lspconfig..setup {}
+            
+            vim.lsp.enable("texlab")
+            vim.lsp.enable("pyright")
 
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, {desc = "Got to definition"})
             vim.keymap.set("n", "K", vim.lsp.buf.hover, {desc = "Hover documentation"})
