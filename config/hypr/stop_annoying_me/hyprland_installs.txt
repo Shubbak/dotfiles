@@ -13,3 +13,8 @@ hypridle
 cliphist
 hyprlock
 hyprsunset
+adw-gtk-theme
+qt5ct
+qt6ct
+kvantum
+breeze-icons
