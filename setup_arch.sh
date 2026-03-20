@@ -180,6 +180,7 @@ ln -sfT "$configdir/hypr" "$HOME/.config/hypr"
 ln -sfT "$configdir/waybar" "$HOME/.config/waybar"
 ln -sfT "$configdir/nvim" "$HOME/.config/nvim"
 ln -sfn "$MACHINES/$HOST" "$MACHINES/current"
+ln -sf "$MACHINES/current/hyprpaper.conf" "$HOME/.config/hypr/hyprpaper.conf"
 
 if ask_yes_no "Do you want to manage SDDM on a user-preference base?"; then
     sudo cp $dotdir/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
