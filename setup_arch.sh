@@ -195,9 +195,6 @@ if ask_yes_no "open new konsole to run p10k configuration wizard?"; then
 fi
 
 echo "==> Setup complete"
-echo "Remember to:"
-echo "Check if you want hdf5"
-echo " - Clone and configure your nvim setup"
 if ask_yes_no "Do you want to reboot now?"; then
     reboot 
 fi
