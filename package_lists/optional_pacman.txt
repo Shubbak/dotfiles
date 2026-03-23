@@ -1,0 +1,11 @@
+anki
+element-desktop
+fastfetch
+img2pdf
+ktouch
+qbittorrent
+speedtest-cli
+telegram-desktop
+obsidian
+libreoffice-fresh
+signal-desktop
