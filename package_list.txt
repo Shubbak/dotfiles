@@ -43,3 +43,5 @@ zathura-pdf-poppler
 man
 sane
 sane-airscan
+inetutils
+xdg-user-dirs

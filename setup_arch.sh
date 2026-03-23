@@ -171,12 +171,17 @@ if [ ! -d "$MACHINES/$HOST" ]; then
     HOST=fallback
 fi
 
+rm -rf "$HOME/.config/hypr"
+rm -rf "$HOME/.config/zsh"
+rm -rf "$HOME/.config/waybar"
+rm -rf "$HOME/.config/nvim"
+
 ln -sf "$dotdir/gitconfig" "$HOME/.gitconfig"
 ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
 ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
 ln -sf "$configdir/zsh/.zshrc" "$HOME/.zshrc"
 ln -sfT "$configdir/zsh" "$HOME/.config/zsh"
-ln -sfT "$configdir/hypr" "$HOME/.config/hypr"
+ln -sfn "$configdir/hypr" "$HOME/.config/hypr"
 ln -sfT "$configdir/waybar" "$HOME/.config/waybar"
 ln -sfT "$configdir/nvim" "$HOME/.config/nvim"
 ln -sfn "$MACHINES/$HOST" "$MACHINES/current"
