@@ -2,6 +2,11 @@
 
 set -euo pipefail
 
+dotdir="$HOME/Repos/dotfiles"
+configdir="$dotdir/config"
+MACHINES=$configdir/hypr/config/machines
+HOST=$(hostname)
+
 ask_yes_no() {
     local prompt="$1"
     local ans
@@ -10,54 +15,83 @@ ask_yes_no() {
     [[ "$ans" =~ ^(y|yes)$ ]]
 }
 
+optional_install() {
+    local pkg="$1"
+
+    if pacman -Q "$pkg" &>/dev/null; then
+        echo "$pkg already intalled - skipping"
+        return
+    fi
+
+    if ask_yes_no "Install $pkg?"; then
+        sudo pacman -S --needed --noconfirm "$pkg"
+    else
+        echo "Skipping installation of $pkg"
+    fi
+}
+
+optional_yay() {
+    local pkg="$1"
+
+    if yay -Q "$pkg" &>/dev/null; then
+        echo "$pkg already installed - skipping"
+        return
+    fi
+
+    if ask_yes_no "Install $pkg?"; then
+        yay -S --needed --noconfirm "$pkg"
+    else
+        echo "Skipping installation of $pkg"
+    fi
+}
+
+optional_remove() {
+    local pkg="$1"
+
+    if ! yay -Q "$pkg" &>/dev/null; then
+        return
+    fi
+
+    if ask_yes_no "Remove $pkg?"; then
+        yay -Rs --noconfirm "$pkg"
+    else
+        echo "Keeping $pkg"
+    fi
+}
+
 echo "==> Updating system"
 sudo pacman -Syu --noconfirm
 
+# non-optional packages
 echo "==> Installing official packages"
-sudo pacman -S --needed --noconfirm \
-    anki \
-    base-devel \
-    bitwarden \
-    cifs-utils \
-    cowsay \
-    fastfetch \
-    firefox \
-    geeqie \
-    git \
-    inkscape \
-    konsole \
-    ktouch \
-    libreoffice-fresh \
-    neovim \
-    nodejs \
-    obsidian \
-    openconnect \
-    pandoc \
-    python \
-    python-numpy \
-    python-pandas \
-    python-pip \
-    python-pynvim \
-    python-scipy \
-    python-virtualenv \
-    qbittorrent \
-    ripgrep-all \
-    speedtest-cli \
-    syncthing \
-    telegram-desktop \
-    texlive \
-    texlive-lang{arabic,german,english} \
-    thunderbird \
-    tldr \
-    tree \
-    ttf-firacode-nerd \
-    ttf-scheherazade-new \
-    unzip \
-    vlc \
-    wget \
-    zathura \
-    zsh \
+sudo pacman -S --needed --noconfirm - < $HOME/Repos/dotfiles/package_list.txt
 
+# optional packages
+
+optional_install anki
+optional_install element-desktop
+optional_install fastfetch
+optional_install img2pdf
+optional_install ktouch
+optional_install openconnect
+optional_install qbittorrent
+optional_install speedtest-cli
+optional_install telegram-desktop
+optional_install obsidian
+optional_install libreoffice-fresh
+optional_install signal-desktop
+
+echo "You should have nvim now. Do you want to remove vim-runtime, vim, ex-vi-compat?" 
+optional_remove ex-vi-compat
+optional_remove vim
+optional_remove vim-runtime
+
+echo "You should have nvim now. Do you want to remove nano? Please confirm after the script, that \$EDITOR=nvim. "
+optional_remove nano-syntax-highlighting
+optional_remove nano
+
+optional_remove haruna
+optional_remove gwenview
 
 # --------------------------------------------------
 # Install yay (AUR helper) if missing
@@ -76,11 +110,10 @@ else
 fi
 
 echo "==> Installing AUR packages"
-yay -S --needed --noconfirm \
-    dropbox \
-    zoom \
-    zotero
-    #hdfview 
+optional_yay dropbox 
+optional_yay hdfview 
+optional_yay zoom 
+optional_yay zotero
 
 # --------------------------------------------------
 # Zsh setup
@@ -105,37 +138,63 @@ if [[ ! -d "$THEME_DIR" ]]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$THEME_DIR"
 fi
 
-# Ensure theme is set
-ZSHRC="$HOME/.zshrc"
-touch "$ZSHRC"
+# # Ensure theme is set
+# ZSHRC="$HOME/.zshrc"
+# touch "$ZSHRC"
+# 
+# if grep -q '^ZSH_THEME=' "$ZSHRC"; then
+    # sed -i 's|^ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|' "$ZSHRC"
+# else
+    # echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$ZSHRC"
+# fi
 
-if grep -q '^ZSH_THEME=' "$ZSHRC"; then
-    sed -i 's|^ZSH_THEME=.*|ZSH_THEME="powerlevel10k/powerlevel10k"|' "$ZSHRC"
-else
-    echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$ZSHRC"
-fi
+echo "Installing hyprland-specific packages..."
+
+sudo pacman --needed -S - < $configdir/hypr/stop_annoying_me/hyprland_installs.txt
+yay --needed -S - < $configdir/hypr/stop_annoying_me/hyprland_installs_yay.txt
+
+
+echo "executing nvim setup script..."
+chmod +x $configdir/nvim/scripts/script_arch.sh
+
+$configdir/nvim/scripts/script_arch.sh
 
 echo "Creating symlinks..."
 
-dotdir="$HOME/Repos/dotfiles"
 
-mkdir -p $HOME/.config/zathura
+mkdir -p "$HOME/.config/zathura"
 
-ln -sf $dotdir/gitconfig $HOME/.gitconfig
-ln -sf $dotdir/zathurarc $HOME/.config/zathura/zathurarc
-ln -sf $dotdir/latexmkrc $HOME/.latexmkrc
-ln -sf $dotdir/zshrc $HOME/.zshrc
-# ln -sf $dotdir/p10.zsh $HOME/.p10k.zsh
+if [ ! -d "$MACHINES/$HOST" ]; then
+    echo "Warning: no machine config for '$HOST'. Available are:"
+    ls "$MACHINES"
+    echo "Falling back to safe defaults..."
+    HOST=fallback
+fi
+
+ln -sf "$dotdir/gitconfig" "$HOME/.gitconfig"
+ln -sf "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
+ln -sf "$dotdir/latexmkrc" "$HOME/.latexmkrc"
+ln -sf "$configdir/zsh/.zshrc" "$HOME/.zshrc"
+ln -sfT "$configdir/zsh" "$HOME/.config/zsh"
+ln -sfT "$configdir/hypr" "$HOME/.config/hypr"
+ln -sfT "$configdir/waybar" "$HOME/.config/waybar"
+ln -sfT "$configdir/nvim" "$HOME/.config/nvim"
+ln -sfn "$MACHINES/$HOST" "$MACHINES/current"
+ln -sf "$MACHINES/current/hyprpaper.conf" "$HOME/.config/hypr/hyprpaper.conf"
+
+if ask_yes_no "Do you want to manage SDDM on a user-preference base?"; then
+    sudo cp $dotdir/sddm/preferred.desktop /usr/share/wayland-sessions/preferred.desktop
+    sudo cp $dotdir/sddm/launch_preferred_session /usr/local/bin/launch_preferred_session
+fi
 
 echo "Symlinks created!"
 
 # configure p10k
-konsole 
+if ask_yes_no "open new konsole to run p10k configuration wizard?"; then
+    konsole --nofork &
+fi
 
 echo "==> Setup complete"
-echo "Remember to:"
-echo "Check if you want hdf5"
-echo " - Clone and configure your nvim setup"
 if ask_yes_no "Do you want to reboot now?"; then
     reboot 
 fi

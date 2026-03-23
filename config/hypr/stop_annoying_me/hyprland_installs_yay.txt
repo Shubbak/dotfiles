@@ -1,0 +1,3 @@
+waypaper
+xdg-desktop-portal-hyprland-git
+hyprshutdown
