@@ -13,10 +13,10 @@ if [ ! -d "$MACHINES/$HOST" ]; then
 fi
 
 
-safe_link "$dotdir/gitconfig" "$HOME/.gitconfig"
-safe_link "$dotdir/zathurarc" "$HOME/.config/zathura/zathurarc"
-safe_link "$dotdir/latexmkrc" "$HOME/.latexmkrc"
-safe_link "$configdir/zsh/.zshrc" "$HOME/.zshrc"
+safe_link "$dotdir/home/gitconfig" "$HOME/.gitconfig"
+safe_link "$dotdir/home/zathurarc" "$HOME/.config/zathura/zathurarc"
+safe_link "$dotdir/home/latexmkrc" "$HOME/.latexmkrc"
+safe_link "$dotdir/home/zshrc" "$HOME/.zshrc"
 safe_link "$configdir/zsh" "$HOME/.config/zsh"
 safe_link "$configdir/hypr" "$HOME/.config/hypr"
 safe_link "$configdir/waybar" "$HOME/.config/waybar"
