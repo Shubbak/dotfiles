@@ -1,0 +1,11 @@
+Host github
+    HostName github.com
+    user git
+    PreferredAuthentications publickey
+    IdentityFile /home/abu-hamza/.ssh/id_ed25519
+
+Host becker
+    HostName 141.51.197.63
+    user absh
+    IdentityFile /home/abu-hamza/.ssh/id_ed25519_becker
+
