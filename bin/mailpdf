@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+if [ $# -ne 4 ]; then
+    echo "Usage: mailpdf recipient subject body file"
+    exit 1
+fi
+
+to="$1"
+subject="$2"
+body="$3"
+file="$4"
+
+# Make sure file exists
+if [ ! -f "$file" ]; then
+    echo "File not found: $file"
+    exit 1
+fi
+
+# Run Thunderbird 
+thunderbird -compose \
+    "to='$to',subject='$subject',body='$body',attachment='file://$(realpath "$file")'"

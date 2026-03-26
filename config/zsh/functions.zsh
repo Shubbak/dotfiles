@@ -39,27 +39,6 @@ if [ "$random_phrase" = "" ]; then
 fi
 echo "$random_phrase" | cowsay -f "$random_animal"
 
-mailpdf() {
-    if [ $# -ne 4 ]; then
-        echo "Usage: mailpdf recipient subject body file"
-        return 1
-    fi
-
-    local to="$1"
-    local subject="$2"
-    local body="$3"
-    local file="$4"
-
-    # Make sure file exists
-    if [ ! -f "$file" ]; then
-        echo "File not found: $file"
-        return 1
-    fi
-
-    # Run Thunderbird via Flatpak with proper quoting
-    thunderbird -compose \
-        "to='$to',subject='$subject',body='$body',attachment='file://$(realpath "$file")'"
-}
 
 master() {
     local project_dir="$HOME/Repos/h2project"
@@ -92,46 +71,6 @@ variation() {
 
     nvim "${2:-./221205.tex}"
 }
-
-scanpdf() {  
-    filename=$1
-    if ls "$1" &> /dev/null; then 
-        read "over?Warning! "$1" already exists. Overwrite? (y/n)" 
-        if ! [[ "$over" == "y" ]]; then
-            return 1
-        fi
-    fi
-
-    read "ans?Do you want [c]olour or [g]ray? "
-    if [[ "$ans" == "c" ]]; then
-        mode="color"
-    else
-        mode="gray"
-    fi
-    tmppdf=$(mktemp --suffix=pdf)
-    tmpfiles=(); n=2; while true; do
-    tmpfile=$(mktemp --suffix=pnm)
-    scanimage --mode="$mode" --format=pnm -d "airscan:w0:EPSON ET-2850 Series" --resolution 150 > "$tmpfile"
-    tmpfiles+=("$tmpfile")
-        read "ans?Place page $n on the scanner and press Enter. Type q when finished. "
-        [[ "$ans" == "q" ]] && break
-        tmpfile=$(mktemp --suffix=pnm)
-        scanimage --mode="$mode" --format=pnm -d "airscan:w0:EPSON ET-2850 Series" --resolution 150 > "$tmpfile"
-        tmpfiles+=("$tmpfile")
-        ((n++))
-    done; img2pdf -s 300dpi -o "$tmppdf" "${tmpfiles[@]}" 
-    rm -f "${tmpfiles[@]}"
-    echo "The file has size: $(/usr/bin/ls -sh $tmppdf)"
-    read "ans?Do you want to [c]ompress the pdf or [n]ot (recommended for text on screen, not for printing or for pictures)? "
-    if [[ "$ans" == "c" ]] ; then
-        gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$filename" "$tmppdf"
-    else
-        mv "$tmppdf" "$filename"
-        rm -f "$tmppdf"
-    fi
-
-}
-
 
 function duse() {  # usage: duse(max-depth, location) def.: 2, .
     if [ "$1" != "" ]; then 

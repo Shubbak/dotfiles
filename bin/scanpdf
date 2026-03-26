@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+if [[ -z "$1" ]]; then
+    echo "Usage: $(basename "$0") <output.pdf> --optional-flags-passed-to-scanimage"
+    exit 1
+fi
+
+SCANNER="airscan:w0:EPSON ET-2850 Series"
+
+filename=$1
+shift
+extra=("$@")
+
+if [[ -f "$filename" ]]; then
+    read -p "Warning! \"$filename\" already exists. Overwrite? (y/n) " over
+    if [[ "$over" != "y" ]]; then
+        exit 1
+    fi
+fi
+
+read -p "Do you want [c]olour or [g]ray? " ans
+if [[ "$ans" == "c" ]]; then
+    mode="color"
+else
+    mode="gray"
+fi
+
+tmppdf=$(mktemp --suffix=pdf)
+tmpfiles=()
+n=1
+
+while true; do
+    read -p "Place page $n on the scanner and press Enter. Type q when finished. " ans
+    [[ "$ans" == "q" ]] && break
+    tmpfile=$(mktemp --suffix=pnm)
+    scanimage --mode="$mode" -d "$SCANNER" --format=pnm --resolution 300 "${extra[@]}" > "$tmpfile"
+    tmpfiles+=("$tmpfile")
+    ((n++))
+done
+
+img2pdf -s 300dpi -o "$tmppdf" "${tmpfiles[@]}"
+rm -f "${tmpfiles[@]}"
+
+echo "The file has size: $(ls -sh "$tmppdf")"
+
+read -p "Do you want to [c]ompress the pdf or [n]ot? " ans
+if [[ "$ans" == "c" ]]; then
+    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dPDFSETTINGS=/ebook \
+       -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$filename" "$tmppdf"
+    rm -f "$tmppdf"
+else
+    mv "$tmppdf" "$filename"
+fi
