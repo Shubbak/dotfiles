@@ -46,3 +46,4 @@ sane-airscan
 inetutils
 xdg-user-dirs
 fzf
+timew
