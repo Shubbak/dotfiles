@@ -49,3 +49,4 @@ while IFS= read -r pkg || [[ -n "$pkg" ]]; do
     optional_yay "$pkg"
 done < "$dotdir/package_lists/optional_yay.txt"
 
+systemctl enable --user syncthing
