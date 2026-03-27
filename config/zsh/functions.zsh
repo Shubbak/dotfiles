@@ -89,7 +89,7 @@ function duse() {  # usage: duse(max-depth, location) def.: 2, .
 }
 
 function gitend() {
-    git ca "$1" && git push
+    git commit -am "$1" && git push
 }
 
 nvim_now(){

@@ -7,29 +7,29 @@ Check off as you go.
 
 ## 🔴 Broken / Silent Failures (fix these first)
 
-- [ ] **`keybinds.zsh` is never sourced** — `config/zsh/keybinds.zsh` exists but nothing loads it. Add `source ~/.config/zsh/keybinds.zsh` in `.zshrc` or remove the file if it's unused.
+- [x] **`keybinds.zsh` is never sourced** — `config/zsh/keybinds.zsh` exists but nothing loads it. Add `source ~/.config/zsh/keybinds.zsh` in `.zshrc` or remove the file if it's unused.
 - [ ] **NVM is not installed by any script** — `plugins.zsh` sources NVM on startup, but no setup script installs it. Add a NVM install step to `02_zsh.sh` (via the official curl installer).
-- [ ] **Syncthing is installed but never enabled** — add `systemctl enable --user syncthing` to `01_system.sh` after the package install step.
+- [x] **Syncthing is installed but never enabled** — add `systemctl enable --user syncthing` to `01_system.sh` after the package install step.
 - [ ] **`set -euo pipefail` missing from subscripts** — it's only in `setup_arch.sh`. Add it to the top of every `scripts/0*.sh` so they're safe to run standalone too.
 
 ---
 
 ## 🟠 Will Lose Data / Cause Confusion on Fresh Install
 
-- [ ] **Back up `~/.ssh/config`** — not the keys, just the config (hostnames, `ServerAliveInterval`, agent forwarding). Add it to `config/` and a symlink in `05_symlinks.sh`.
+- [x] **Back up `~/.ssh/config`** — not the keys, just the config (hostnames, `ServerAliveInterval`, agent forwarding). Add it to `config/` and a symlink in `05_symlinks.sh`.
 - [ ] **Back up `~/.config/mimeapps.list`** — without this, default app associations (PDF → zathura, etc.) won't be set on a fresh machine. Add to `config/` and symlink it.
-- [ ] **Bluetooth not set up** — the `connect-mouse` alias requires `bluez-utils` and an enabled bluetooth service. Add `bluez-utils` to `package_list.txt` and `systemctl enable bluetooth` to `01_system.sh`.
+- [x] **Bluetooth not set up** — the `connect-mouse` alias requires `bluez-utils` and an enabled bluetooth service. Add `bluez-utils` to `package_list.txt` and `systemctl enable bluetooth` to `01_system.sh`.
 - [ ] **`venvh2` alias and `master()` function silently fail** — they reference `~/.venv/h2` which no script creates. Either add a venv creation step to the setup, or add a note/guard that prints a helpful error when the venv doesn't exist.
 
 ---
 
 ## 🟡 Cleanup — Remove Dead/Duplicate Files
 
-- [ ] **Delete `p10k.zsh` from repo root** — duplicate of `config/zsh/prompt/.p10k.zsh`. Remove it.
+- [x] **Delete `p10k.zsh` from repo root** — duplicate of `config/zsh/prompt/.p10k.zsh`. Remove it.
 - [ ] **Delete `config/zsh/prompt/starship.zsh`** — you use p10k, not Starship. Dead config.
 - [ ] **Remove `package_lists/todo.txt`** from the repo (add to `.gitignore` or just delete it).
 - [ ] **Clarify `explicitly_installed_packages_fresh_arch_installscript.txt`** — if it's an auto-generated snapshot, rename it to `packages-snapshot.txt` and add a one-line comment at the top explaining what it is. If it's redundant with `package_list.txt`, delete it.
-- [ ] **Remove the entire `oh-my-zsh/` directory** from the repo and add it to `.gitignore`. The install script in `02_zsh.sh` already installs it correctly at setup time — having a stale full copy committed serves no purpose and adds thousands of files.
+- [x] **Remove the entire `oh-my-zsh/` directory** from the repo and add it to `.gitignore`. The install script in `02_zsh.sh` already installs it correctly at setup time — having a stale full copy committed serves no purpose and adds thousands of files.
 
 ---
 
@@ -37,7 +37,7 @@ Check off as you go.
 
 - [ ] **Quote all variables in `03_hyprland.sh`** — `$dotdir/package_lists/...` should be `"$dotdir/package_lists/..."`. Always quote path variables in shell.
 - [ ] **Add `--noconfirm` to `03_hyprland.sh`** — the `pacman` and `yay` calls there are missing it, unlike the rest of your scripts.
-- [ ] **Fix `06_cleanup.sh` name** — it doesn't clean up anything; it handles SDDM and the reboot prompt. Rename to `06_finish.sh` or `06_post_setup.sh`.
+- [x] **Fix `06_cleanup.sh` name** — it doesn't clean up anything; it handles SDDM and the reboot prompt. Rename to `06_finish.sh` or `06_post_setup.sh`.
 - [ ] **Remove leftover scaffold in `04_neovim.sh`** — the `# Helper functions` comment followed by blank lines and no functions is dead noise.
 - [ ] **Fix LSP check logic in `04_neovim.sh`** — the `if pacman -Q pyright typescript-language-server ...` block only skips if ALL are installed. Replace it with a loop using `optional_install` (which you already have) so each LSP is checked individually.
 - [ ] **Consider running subscripts as subprocesses** — `setup_arch.sh` uses `source` for all subscripts, meaning a crash halts everything. Consider `export dotdir` and running each script as `bash "$SCRIPTS/01_system.sh"` so they can succeed/fail independently.
@@ -50,7 +50,7 @@ Check off as you go.
 - [ ] **Rename `plugins.zsh` to `tools.zsh` or `init.zsh`** — it contains NVM, fzf, and zoxide init, not OMZ plugin declarations. The name is misleading.
 - [ ] **Clean up `env.zsh`** — it contains the p10k instant-prompt block and OMZ bootstrap, which are shell init, not environment variables. Move those to `.zshrc` and keep `env.zsh` to only `export` statements.
 - [ ] **Move OMZ plugin list to match plugin loading** — `plugins=(git)` is in `.zshrc` but all other plugin setup is in `plugins.zsh`/`init.zsh`. Put them together.
-- [ ] **Fix `gitend()` calling a git alias** — `git ca` is a gitconfig alias, which can fail in non-interactive contexts. Inline it as `git commit -am "$1" && git push`.
+- [x] **Fix `gitend()` calling a git alias** — `git ca` is a gitconfig alias, which can fail in non-interactive contexts. Inline it as `git commit -am "$1" && git push`.
 
 ---
 
