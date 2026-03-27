@@ -68,3 +68,4 @@ Check off as you go.
 - [ ] **Obsidian config** — if you use community plugins, back up `.obsidian/` from your vault so plugin settings and hotkeys survive a reinstall.
 - [ ] **`~/.local/bin/` scripts folder** — `scanpdf`, `mailpdf`, and similar functions in `functions.zsh` are substantial enough to live as standalone scripts here, versioned alongside everything else.
 Tailscale or Wireguard Setup for syncthing on any network including Uni
+symlinks to /usr/local/bin
