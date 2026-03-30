@@ -98,10 +98,12 @@ nvim_now(){
 
 masterbericht() {
   local file="${1:-$HOME/Obsidian/Notizen/Masterarbeit Status.md}"
+  cd $HOME/Repos/h2project
   local first_hash=$(git log --since="3 week ago" --reverse --format="%H" | head -1)
   git diff "$first_hash" > /tmp/_diff
   #awk '/^### Code$/ { print; while ((getline line < "/tmp/_diff") > 0) print line; next } 1' "$file" > /tmp/_weeks_code && mv /tmp/_weeks_code "$file"
-  awk '/^### Code$/ && !done { print; print "\`\`\`diff"; while ((getline line < "/tmp/_diff") > 0) print line; print "\`\`\`"; done=1; next } 1' "$file" > /tmp/_weeks_code && mv /tmp/_weeks_code "$file"
+  # awk '/^### Code$/ && !done { print; print "\`\`\`diff"; while ((getline line < "/tmp/_diff") > 0) print line; print "\`\`\`"; done=1; next } 1' "$file" > /tmp/_weeks_code && mv /tmp/_weeks_code "$file"
+  nvim /tmp/_diff
   pandoc -o $HOME/Repos/Masterthesis/Bericht.pdf "$file" --pdf-engine=lualatex -V mainfont="DejaVu Sans"    
 }
 

@@ -27,3 +27,4 @@ alias ll='eza -lob'
 
 alias linkinpark='vlc -q --qt-start-minimized $HOME/Audio/LinkinPark&'
 alias cd=z
+alias vpn="sudo openconnect -b -u uk056567 vpn.uni-kassel.de"
