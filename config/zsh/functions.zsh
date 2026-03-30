@@ -104,7 +104,7 @@ masterbericht() {
   #awk '/^### Code$/ { print; while ((getline line < "/tmp/_diff") > 0) print line; next } 1' "$file" > /tmp/_weeks_code && mv /tmp/_weeks_code "$file"
   # awk '/^### Code$/ && !done { print; print "\`\`\`diff"; while ((getline line < "/tmp/_diff") > 0) print line; print "\`\`\`"; done=1; next } 1' "$file" > /tmp/_weeks_code && mv /tmp/_weeks_code "$file"
   nvim /tmp/_diff
-  pandoc -o $HOME/Repos/Masterthesis/Bericht.pdf "$file" --pdf-engine=lualatex -V mainfont="DejaVu Sans"    
+  pandoc -o $HOME/Repos/Masterthesis/Bericht.pdf "$file" --pdf-engine=lualatex -V mainfont="TeX Gyre Pagella"    
 }
 
 
