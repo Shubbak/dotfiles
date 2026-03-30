@@ -20,9 +20,9 @@ alias pycalc='python3 -iq -c "import numpy as np; from numpy import *"'
 alias scanimage='scanimage --format=png -d "airscan:w0:EPSON ET-2850 Series" --resolution 300'
 alias rg='rg -S'
 
-alias lt='eza -lob --total-size'
+alias lt='eza -lob --total-size --no-permissions'
 alias ls='eza'
-alias ll='eza -lob'
+alias ll='eza -lob --no-permissions'
 
 
 alias linkinpark='vlc -q --qt-start-minimized $HOME/Audio/LinkinPark&'
