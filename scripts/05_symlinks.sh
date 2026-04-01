@@ -25,7 +25,7 @@ safe_link "$MACHINES/$HOST" "$MACHINES/current"
 safe_link "$MACHINES/current/hyprpaper.conf" "$HOME/.config/hypr/hyprpaper.conf"
 safe_link "$configdir/ssh_config" "$HOME/.ssh/config"
 
-for file in $dotdir/bin/*
-do safe_link $file "/usr/local/bin/"
+for file in $(ls $dotdir/bin)
+    do sudo ln -sf $dotdir/bin/$file "/usr/local/bin/$file"
 done
 

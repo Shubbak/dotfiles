@@ -1,0 +1,432 @@
+#!/usr/bin/env bash
+# pomo.sh — a standalone pomodoro timer matching your pomo.nvim sessions
+# Usage: pomo <session>
+#        pomo custom                        (interactive builder)
+#        pomo custom work 25 walk 15 work 25  (inline args, preset names or custom)
+# Example: pomo seven
+
+# ── Notification helper ────────────────────────────────────────────────────────
+notify() {
+    local title="$1" body="$2"
+    echo ""
+    echo "  🍅  $title"
+    echo "      $body"
+    echo ""
+    # Desktop notification if available
+    if command -v notify-send &>/dev/null; then
+        notify-send "$title" "$body"
+    elif command -v osascript &>/dev/null; then
+        osascript -e "display notification \"$body\" with title \"$title\""
+    fi
+}
+
+# ── Timer ──────────────────────────────────────────────────────────────────────
+run_timer() {
+    local name="$1" duration_min="$2"
+    local total_sec=$(( duration_min * 60 ))
+    local start=$(date +%s)
+
+    while true; do
+        local now=$(date +%s)
+        local elapsed=$(( now - start ))
+        local remaining=$(( total_sec - elapsed ))
+
+        [[ $remaining -le 0 ]] && break
+
+        local mins=$(( remaining / 60 ))
+        local secs=$(( remaining % 60 ))
+
+        # Overwrite current line
+        printf "\r  %-35s  %02d:%02d  " "$name" "$mins" "$secs"
+
+        # Check for keypress (q to quit, s to skip)
+        if read -t 1 -n 1 -s key 2>/dev/null; then
+            if [[ "$key" == "q" ]]; then
+                echo ""
+                echo "  Quitting."
+                exit 0
+            elif [[ "$key" == "s" ]]; then
+                echo ""
+                echo "  Skipping: $name"
+                return
+            fi
+        fi
+    done
+
+    printf "\r  %-35s  done!   \n" "$name"
+}
+
+# ── Parse duration string (e.g. "25m", "90m") ─────────────────────────────────
+parse_minutes() {
+    echo "${1%m}"
+}
+
+# ── Run a session (array of "Name|duration" pairs) ────────────────────────────
+run_session() {
+    local session_name="$1"
+    shift
+    local steps=("$@")
+    local total=${#steps[@]}
+    local i=0
+
+    echo ""
+    echo "  Starting session: $session_name  ($total steps)"
+    echo "  Press 's' to skip current timer, 'q' to quit"
+    echo ""
+
+    for step in "${steps[@]}"; do
+        local name="${step%%|*}"
+        local dur="${step##*|}"
+        local mins=$(parse_minutes "$dur")
+        i=$(( i + 1 ))
+
+        notify "[$i/$total] $name" "${mins} minutes — $session_name"
+        run_timer "$name" "$mins"
+    done
+
+    notify "Session complete!" "$session_name is done. Nice work."
+    echo "  All done! 🎉"
+    echo ""
+}
+
+# ── Presets ────────────────────────────────────────────────────────────────────
+work="Work|25m"
+deep_work="Deep Work|90m"
+window="Look out of the window|5m"
+rope="Jump rope|5m"
+stretch="Stretch|5m"
+walk="Take a walk|15m"
+outside="Go outside|10m"
+long_break="Go eat, or.. I dunno|45m"
+eat="Eat or have fun or something|30m"
+
+# ── Sessions ───────────────────────────────────────────────────────────────────
+session_pomodoro=(    # 1h40m total, 1h15m work = 75%
+    "$work" "$window"
+    "$work" "$rope"
+    "$work" "$walk"
+)
+
+session_eight=(       # 8h35m total, 6h15m work = 73%
+    "$work" "$window"
+    "$work" "$rope"
+    "$work" "$walk"
+    "$work" "$window"
+    "$work" "$rope"
+    "$work" "$walk"
+    "$work" "$stretch"
+    "$work" "$long_break"
+    "$work" "$window"
+    "$work" "$rope"
+    "$work" "$walk"
+    "$work" "$stretch"
+    "$work" "$window"
+    "$work" "$stretch"
+    "$work"
+)
+
+session_deep_eight=(  # 7h45m total, 6h00m work = 77%
+    "$deep_work" "$walk"
+    "$deep_work" "$long_break"
+    "$deep_work" "$walk"
+    "$deep_work"
+    "Wrap-up|30m"
+)
+
+session_seven=(       # 7h10m total, 5h50m work = 81%
+    "$work" "$window"
+    "$work" "$rope"
+    "$work" "$walk"
+    "$work" "$stretch"
+    "$work" "$window"
+    "$work" "$eat"
+    "$work" "$rope"
+    "$work" "$window"
+    "$work" "$walk"
+    "$work" "$stretch"
+    "$work" "$window"
+    "$work" "$rope"
+    "$work"
+)
+
+session_sixhalf=(     # 6h40m total, 5h25m work = 81%
+    "$work" "$window"
+    "$work" "$rope"
+    "$work" "$walk"
+    "$work" "$stretch"
+    "$work" "$window"
+    "$work" "$eat"
+    "$work" "$stretch"
+    "$work" "$window"
+    "$work" "$walk"
+    "$work" "$rope"
+    "$work" "$window"
+    "$work"
+)
+
+session_six=(         # 6h10m total, 5h00m work = 81%
+    "$work" "$window"
+    "$work" "$rope"
+    "$work" "$walk"
+    "$work" "$stretch"
+    "$work" "$rope"
+    "$work" "$eat"
+    "$work" "$stretch"
+    "$work" "$walk"
+    "$work" "$window"
+    "$work" "$window"
+    "$work"
+)
+
+session_deep_six=(    # 6h00m total, 5h00m work = 83%
+    "$deep_work" "$walk"
+    "$deep_work" "$eat"
+    "$deep_work" "$walk"
+    "Wrap-up|30m"
+)
+
+session_five=(        # 4h35m total, 3h45m work = 82%
+    "$work" "$work" "$outside"
+    "$work" "$work" "$eat"
+    "$work" "$work" "$work" "$outside"
+    "$work" "$work"
+)
+
+session_four=(        # 4h00m total, 3h20m work = 81%
+    "$work" "$work" "$outside"
+    "$work" "$work" "Take a Walk|20m"
+    "$work" "$work" "$outside"
+    "$work" "$work"
+)
+
+session_deep_four=(   # 4h10m total, ~3h45m work = 90%
+    "$deep_work" "$walk"
+    "$deep_work" "$outside"
+    "Deep Work|45m"
+)
+
+session_three=(       # 2h55m total, 2h30m work = 86%
+    "$work" "$work" "$stretch"
+    "$work" "$window"
+    "$work" "$work" "$stretch"
+    "$work"
+)
+
+# ── Preset lookup by short name ───────────────────────────────────────────────
+# Returns a "Name|Xm" string for known preset names, or builds one from raw input
+resolve_preset() {
+    local key="$1" dur="$2"
+    case "$key" in
+        work)       echo "$work" ;;
+        deep_work)  echo "$deep_work" ;;
+        window)     echo "$window" ;;
+        rope)       echo "$rope" ;;
+        stretch)    echo "$stretch" ;;
+        walk)       echo "$walk" ;;
+        outside)    echo "$outside" ;;
+        long)       echo "$long_break" ;;
+        eat)        echo "$eat" ;;
+        *)
+            # treat as custom name, dur is required
+            if [[ -z "$dur" ]]; then
+                echo "ERROR"
+            else
+                echo "${key}|${dur}m"
+            fi
+            ;;
+    esac
+}
+
+# ── Preview a session before starting ─────────────────────────────────────────
+preview_session() {
+    local steps=("$@")
+    local total=${#steps[@]}
+    local total_min=0
+    local i=0
+
+    echo ""
+    echo "  ┌─ Session preview ($total steps) ──────────────────────────"
+    for step in "${steps[@]}"; do
+        local name="${step%%|*}"
+        local dur="${step##*|}"
+        local mins=$(parse_minutes "$dur")
+        i=$(( i + 1 ))
+        total_min=$(( total_min + mins ))
+        printf "  │  %2d.  %-32s  %dm\n" "$i" "$name" "$mins"
+    done
+    local hours=$(( total_min / 60 ))
+    local rem=$(( total_min % 60 ))
+    echo "  │"
+    printf "  └─ Total: %dh%02dm\n" "$hours" "$rem"
+    echo ""
+}
+
+# ── Interactive custom session builder ────────────────────────────────────────
+build_custom_interactive() {
+    local steps=()
+
+    echo ""
+    echo "  Custom session builder"
+    echo "  ── Preset shortcuts: work, deep_work, window, rope, stretch,"
+    echo "                       walk, outside, long, eat"
+    echo "  ── Or enter a custom step as:  name duration  (e.g. 'read 20')"
+    echo "  ── Type 'done' when finished, 'undo' to remove last step"
+    echo ""
+
+    while true; do
+        printf "  Add step %d > " "$(( ${#steps[@]} + 1 ))"
+        read -r input
+
+        [[ -z "$input" ]] && continue
+
+        if [[ "$input" == "done" ]]; then
+            if [[ ${#steps[@]} -eq 0 ]]; then
+                echo "  No steps added yet."
+                continue
+            fi
+            break
+        fi
+
+        if [[ "$input" == "undo" ]]; then
+            if [[ ${#steps[@]} -gt 0 ]]; then
+                unset 'steps[-1]'
+                echo "  Removed last step. (${#steps[@]} steps remaining)"
+            else
+                echo "  Nothing to undo."
+            fi
+            continue
+        fi
+
+        # Parse input: single word = preset, two words = name + duration
+        read -r word1 word2 <<< "$input"
+
+        local resolved
+        resolved=$(resolve_preset "$word1" "$word2")
+
+        if [[ "$resolved" == "ERROR" ]]; then
+            echo "  Unknown preset '$word1'. For a custom step, provide a duration too: '$word1 25'"
+            continue
+        fi
+
+        steps+=("$resolved")
+        local name="${resolved%%|*}"
+        local mins=$(parse_minutes "${resolved##*|}")
+        echo "  ✓ Added: $name (${mins}m)  — ${#steps[@]} steps so far"
+    done
+
+    preview_session "${steps[@]}"
+
+    printf "  Start this session? [Y/n] "
+    read -r confirm
+    if [[ "$confirm" =~ ^[Nn] ]]; then
+        echo "  Aborted."
+        exit 0
+    fi
+
+    run_session "custom" "${steps[@]}"
+}
+
+# ── Inline custom session: pomo custom work 25 walk 15 work 25 ────────────────
+build_custom_inline() {
+    shift  # remove "custom" from args
+    local args=("$@")
+    local steps=()
+    local i=0
+
+    while [[ $i -lt ${#args[@]} ]]; do
+        local word="${args[$i]}"
+        local next="${args[$((i+1))]:-}"
+
+        # If next arg looks like a number, it's a duration for a custom name
+        if [[ "$next" =~ ^[0-9]+$ ]]; then
+            local resolved
+            resolved=$(resolve_preset "$word" "$next")
+            if [[ "$resolved" == "ERROR" ]]; then
+                echo "  Error parsing step: '$word $next'"
+                exit 1
+            fi
+            # If it was a known preset, next was ignored as duration — advance by 1
+            # If it was a custom name, next was consumed — advance by 2
+            case "$word" in
+                work|deep_work|window|rope|stretch|walk|outside|long|eat)
+                    # preset matched, next arg is a separate step name — don't consume it
+                    i=$(( i + 1 ))
+                    ;;
+                *)
+                    i=$(( i + 2 ))
+                    ;;
+            esac
+        else
+            local resolved
+            resolved=$(resolve_preset "$word" "")
+            if [[ "$resolved" == "ERROR" ]]; then
+                echo "  Unknown preset '$word'. Custom steps need a duration: 'myname 25'"
+                exit 1
+            fi
+            i=$(( i + 1 ))
+        fi
+
+        steps+=("$resolved")
+    done
+
+    if [[ ${#steps[@]} -eq 0 ]]; then
+        echo "  No steps provided."
+        exit 1
+    fi
+
+    preview_session "${steps[@]}"
+
+    printf "  Start this session? [Y/n] "
+    read -r confirm
+    if [[ "$confirm" =~ ^[Nn] ]]; then
+        echo "  Aborted."
+        exit 0
+    fi
+
+    run_session "custom" "${steps[@]}"
+}
+
+# ── Dispatch ───────────────────────────────────────────────────────────────────
+case "${1:-}" in
+    pomodoro)   run_session "pomodoro"   "${session_pomodoro[@]}" ;;
+    eight)      run_session "eight"      "${session_eight[@]}" ;;
+    deep_eight) run_session "deep_eight" "${session_deep_eight[@]}" ;;
+    seven)      run_session "seven"      "${session_seven[@]}" ;;
+    sixhalf)    run_session "sixhalf"    "${session_sixhalf[@]}" ;;
+    six)        run_session "six"        "${session_six[@]}" ;;
+    deep_six)   run_session "deep_six"   "${session_deep_six[@]}" ;;
+    five)       run_session "five"       "${session_five[@]}" ;;
+    four)       run_session "four"       "${session_four[@]}" ;;
+    deep_four)  run_session "deep_four"  "${session_deep_four[@]}" ;;
+    three)      run_session "three"      "${session_three[@]}" ;;
+    custom)
+        if [[ $# -gt 1 ]]; then
+            build_custom_inline "$@"
+        else
+            build_custom_interactive
+        fi
+        ;;
+    *)
+        echo ""
+        echo "  Usage: pomo <session>"
+        echo "         pomo custom                         (interactive builder)"
+        echo "         pomo custom work 25 walk 15 work 25 (inline, preset names or custom)"
+        echo ""
+        echo "  Preset shortcuts for custom sessions:"
+        echo "    work, deep_work, window, rope, stretch, walk, outside, long, eat"
+        echo ""
+        echo "  Sessions:"
+        echo "    pomodoro   — 1h40m  (75% work)"
+        echo "    three      — 2h55m  (86% work)"
+        echo "    four       — 4h00m  (81% work)"
+        echo "    deep_four  — 4h10m  (90% work)"
+        echo "    five       — 4h35m  (82% work)"
+        echo "    six        — 6h10m  (81% work)"
+        echo "    deep_six   — 6h00m  (83% work)"
+        echo "    sixhalf    — 6h40m  (81% work)"
+        echo "    seven      — 7h10m  (81% work)"
+        echo "    deep_eight — 7h45m  (77% work)"
+        echo "    eight      — 8h35m  (73% work)"
+        echo ""
+        ;;
+esac

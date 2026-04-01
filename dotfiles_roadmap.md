@@ -66,6 +66,6 @@ Check off as you go.
 - [ ] **`~/.config/environment.d/`** — for Wayland/systemd-level env vars (`EDITOR`, `BROWSER`, etc.) that need to be set before the session starts, not just inside zsh.
 - [ ] **Update `README.md`** — it still mentions Ubuntu and WSL. Rewrite it to reflect the current Arch-only setup with the new script structure.
 - [ ] **Obsidian config** — if you use community plugins, back up `.obsidian/` from your vault so plugin settings and hotkeys survive a reinstall.
-- [ ] **`~/.local/bin/` scripts folder** — `scanpdf`, `mailpdf`, and similar functions in `functions.zsh` are substantial enough to live as standalone scripts here, versioned alongside everything else.
+- [x] **`~/.local/bin/` scripts folder** — `scanpdf`, `mailpdf`, and similar functions in `functions.zsh` are substantial enough to live as standalone scripts here, versioned alongside everything else.
 Tailscale or Wireguard Setup for syncthing on any network including Uni
 symlinks to /usr/local/bin
