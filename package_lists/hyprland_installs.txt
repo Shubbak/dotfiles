@@ -18,3 +18,4 @@ qt5ct
 qt6ct
 kvantum
 breeze-icons
+xdg-desktop-portal-hyprland
