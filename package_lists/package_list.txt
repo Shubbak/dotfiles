@@ -47,3 +47,4 @@ inetutils
 xdg-user-dirs
 fzf
 timew
+fd

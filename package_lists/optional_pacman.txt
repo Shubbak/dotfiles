@@ -3,9 +3,9 @@ element-desktop
 fastfetch
 img2pdf
 ktouch
+libreoffice-fresh
+obsidian
 qbittorrent
+signal-desktop
 speedtest-cli
 telegram-desktop
-obsidian
-libreoffice-fresh
-signal-desktop
