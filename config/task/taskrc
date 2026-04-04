@@ -34,3 +34,4 @@ context.hira.write=project:hira
 context.thesis.read=project:thesis
 context.thesis.write=project:thesis
 context.family.read=+einkaufen or +mit_lina or +home
+context=thesis

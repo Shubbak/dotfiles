@@ -37,8 +37,9 @@ random_phrase=${phrases[$((RANDOM % ${#phrases[@]}))]}
 if [ "$random_phrase" = "" ]; then
   random_phrase="Bismillah."
 fi
-echo "$random_phrase" | cowsay -f "$random_animal"
+# echo "$random_phrase" | cowsay -f "$random_animal"
 
+task rc.color=on next
 
 master() {
     local project_dir="$HOME/Repos/h2project"
