@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+source $HOME/Repos/dotfiles/scripts/lib.sh
 
 # --------------------------------------------------
 # Zsh setup

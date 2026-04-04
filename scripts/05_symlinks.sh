@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+source $HOME/Repos/dotfiles/scripts/lib.sh
 
 echo "Creating symlinks..."
 
@@ -24,6 +26,8 @@ safe_link "$configdir/nvim" "$HOME/.config/nvim"
 safe_link "$MACHINES/$HOST" "$MACHINES/current"
 safe_link "$MACHINES/current/hyprpaper.conf" "$HOME/.config/hypr/hyprpaper.conf"
 safe_link "$configdir/ssh_config" "$HOME/.ssh/config"
+safe_link "$configdir/task" "$HOME/.config/task"
+safe_link "$configdir/timewarrior" "$HOME/.config/timewarrior"
 
 for file in $(ls $dotdir/bin)
     do sudo ln -sf $dotdir/bin/$file "/usr/local/bin/$file"

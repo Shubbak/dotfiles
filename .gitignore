@@ -10,3 +10,4 @@ node_modules/
 config/hypr/config/machines/current
 oh-my-zsh
 config/hypr/hyprpaper.conf
+helper.sh

@@ -1,6 +1,3 @@
-#!/usr/bin/env bash
-
-
 dotdir="$HOME/Repos/dotfiles"
 configdir="$dotdir/config"
 MACHINES=$configdir/hypr/config/machines
