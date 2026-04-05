@@ -39,7 +39,7 @@ if [ "$random_phrase" = "" ]; then
 fi
 # echo "$random_phrase" | cowsay -f "$random_animal"
 
-task rc.color=on next
+task rc.color=on bismillah limit:10
 
 master() {
     local project_dir="$HOME/Repos/h2project"

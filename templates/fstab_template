@@ -8,7 +8,7 @@
 UUID=174bd8a3-f76f-4c27-a73a-a01aa40a5a0c 			/      	        			ext4    noatime    									0 	1
 /swapfile                                 			swap	           			swap    defaults   									0 	0
 tmpfs                                     			/tmp	           			tmpfs   defaults,noatime,mode=1777			 				0 	0
-UUID=5CDB-9734 							/media/Festplatte			exfat 	defaults,noatime,nofail,x-systemd.device-timeout=3,users,uid=1000,gid=1003	0 	0  	 
+UUID=5CDB-9734 							/media/Festplatte			exfat 	defaults,noatime,nofail,x-systemd.device-timeout=3,users,uid=1000,gid=1003,umask=002	0 	0  	 
 //smb.uni-kassel.de/exp4_all 					/servers/exp4_all 			cifs 	credentials=/home/abu-hamza/.smbcredentials,uid=1000,gid=1001,iocharset=utf8,vers=3.0,sec=ntlmssp,x-systemd.automount,x-systemd.mount-timeout=30,_netdev 	0 	0
 //smb.uni-kassel.de/exp4_all/02_people/Shubbak_Abdulrahman 	/servers/Shubbak_Abdulrahman		cifs 	credentials=/home/abu-hamza/.smbcredentials,uid=1000,gid=1001,iocharset=utf8,vers=3.0,sec=ntlmssp,x-systemd.automount,x-systemd.mount-timeout=30,_netdev	0 	0
 # /media/Festplatte/Abdulrahman/04_Medien/Fotos			/home/abu-hamza/Bilder			none	defaults,bind,									0	0 
