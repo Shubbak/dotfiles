@@ -27,8 +27,9 @@ include dark-yellow-green.theme # best
 #
 
 search.case.sensitive=no
-uda.priority.values=U,H,M,L,
+uda.priority.values=LW,U,H,M,L,
 urgency.uda.priority.U.coefficient=15.0
+urgency.uda.priority.LW.coefficient=20.0
 
 context.hira.read=project:hira
 context.hira.write=project:hira
@@ -37,7 +38,7 @@ context.thesis.write=project:thesis
 context.family.read=+einkaufen or +mit_lina or +home
 
 report.bismillah.description=Report sorted by urgency not showing scheduled
-report.bismillah.filter=+READY -WAITING limit:page
+report.bismillah.filter=+READY or (scheduled.before:tomorrow+1d +PENDING) limit:page
 report.bismillah.columns=id,start.age,priority,project,tags,recur.indicator,scheduled.relative,due.relative,until.remaining,description,urgency
 report.bismillah.labels=ID,Active,P,Project,Tags,R,S,Due,Until,Description,Urg
 report.bismillah.sort=urgency-
