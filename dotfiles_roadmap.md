@@ -70,3 +70,4 @@ Check off as you go.
 - [ ] Tailscale or Wireguard Setup for syncthing on any network including Uni
 - [ ] symlinks to /usr/local/bin
 - [ ] ssh config file
+- [ ] taskwarrior hook: send notification
