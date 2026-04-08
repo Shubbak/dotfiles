@@ -38,14 +38,24 @@ context.thesis.write=project:thesis
 context.family.read=+einkaufen or +mit_lina or +home
 
 report.bismillah.description=Report sorted by urgency not showing scheduled
-report.bismillah.filter=+READY or (scheduled.before:tomorrow+1d +PENDING) limit:page
+report.bismillah.filter=project.not:home (+READY or (scheduled.before:tomorrow+1d +PENDING)) limit:page
 report.bismillah.columns=id,start.age,priority,project,tags,recur.indicator,scheduled.relative,due.relative,until.remaining,description.count,urgency
 report.bismillah.labels=ID,Active,P,Project,Tags,R,S,Due,Until,Description,Urg
 report.bismillah.sort=urgency-
 report.bismillah.context=1
+
+report.home.description=Report sorted by urgency not showing scheduled, for homekeeping
+report.home.filter=project:home (+READY or (scheduled.before:tomorrow+1d +PENDING)) limit:page
+report.home.columns=id,start.age,priority,project,tags,recur.indicator,scheduled.relative,due.relative,until.remaining,description.count,urgency
+report.home.labels=ID,Active,P,Project,Tags,R,S,Due,Until,Description,Urg
+report.home.sort=urgency-
+report.home.context=1
 
 
  default.command=bismillah
 
 
 reserved.lines=2
+context.home.read=pro:home
+context.home.write=pro:home
+context=home
