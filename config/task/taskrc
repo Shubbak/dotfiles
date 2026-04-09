@@ -28,14 +28,16 @@ include dark-yellow-green.theme # best
 
 search.case.sensitive=no
 uda.priority.values=LW,U,H,M,L,
-urgency.uda.priority.U.coefficient=15.0
-urgency.uda.priority.LW.coefficient=20.0
+urgency.uda.priority.U.coefficient=10.0
+urgency.uda.priority.LW.coefficient=16.0
 
 context.hira.read=project:hira
 context.hira.write=project:hira
 context.thesis.read=project:thesis
 context.thesis.write=project:thesis
-context.family.read=+einkaufen or +mit_lina or +home
+context.home.read=pro:home
+context.home.write=pro:home
+context.private.read=project.not:hira project.not:thesis
 
 report.bismillah.description=Report sorted by urgency not showing scheduled
 report.bismillah.filter=project.not:home (+READY or (scheduled.before:tomorrow+1d +PENDING)) limit:page
@@ -52,10 +54,7 @@ report.home.sort=urgency-
 report.home.context=1
 
 
- default.command=bismillah
+default.command=bismillah
 
 
 reserved.lines=2
-context.home.read=pro:home
-context.home.write=pro:home
-context=home
