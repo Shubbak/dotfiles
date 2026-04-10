@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+
+import argparse 
+import subprocess as sub
+import os
+import math
+import locale
+import calendar
+from datetime import datetime, timedelta
+
+locale.setlocale(locale.LC_TIME, "de_DE.UTF-8")
+now = datetime.now()
+current_month = now.strftime("%B")
+last_month = (now.replace(day=1) - timedelta(days=1)).strftime("%B")
+
+# os.chdir(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(os.path.expanduser("~/Sync/Hira"))
+
+def parser():
+    parser = argparse.ArgumentParser(
+            description="Takes timewarrior summaries and writes time-balance over months."
+            )
+    parser.add_argument(
+            "--month", "-m",
+            type = str,
+            help = "current month in german. Expects to be upper-case, correct spelling.",
+            default=current_month
+            )
+    parser.add_argument(
+            "--lastmonth", "-l",
+            type = str,
+            help = "last month in german. Expects to be upper-case, correct spelling.",
+            default=last_month
+            )
+    parser.add_argument(
+            "--required", "-r",
+            type = float,
+            help = "required work hours for this month",
+            default = 68
+            )
+    return parser
+
+
+def read_timebalance(file):
+    with open(file, "r") as f:
+        lines = f.readlines()
+        last_line = lines[-1].strip()
+    return last_line
+
+def parse_time(x):
+    sign = "-" if x < 0 else "+"
+    x = abs(x)
+    h = int(x)
+    m = (x - h) * 60
+    m_floor = int(m)
+    s = int(round((m - m_floor) * 60, 0))
+    return f"{sign}{h}:{m_floor:02}:{s:02}"
+
+
+
+def write_total_time(lastmonth, currentmonth, required_work):
+    last_month_work = read_timebalance(f"./{lastmonth}.txt")
+    last_month_h, last_month_m, last_month_s = last_month_work.split(":")
+    sign = -1 if last_month_work[0] == '-' else 1
+    last_month_number = sign * (abs(int(last_month_h)) + int(last_month_m)/60 + int(last_month_s)/3600)
+
+    summary = sub.run(["timew", "summary", ":month", "Hira"], capture_output=True, text=True).stdout
+
+    this_month_work = summary.splitlines()[-2].strip()
+    this_month_h, this_month_m, this_month_s = this_month_work.split(":")
+    this_month_number = abs(int(this_month_h)) + int(this_month_m)/60 + int(this_month_s)/3600
+
+    balance = this_month_number - (last_month_number + required_work)
+    balance = parse_time(balance)
+
+    header = f"Balance vom {lastmonth} (+: Überstunden, -:Minusstunden): {last_month_work}"
+
+    with open(f"./{currentmonth}.txt", "w") as f:
+        f.write(f"{header:>115}")
+        f.write("\n\n")
+        f.write(f"{' Arbeit im ' + currentmonth + ' ':=^115}")
+        f.write("\n")
+        f.write(summary)
+        f.write("\n")
+        f.write(f"{' Balance im ' + currentmonth + ' ':=^115}")
+        f.write("\n")
+        f.write(f"{this_month_work + ' ' + last_month_work + ' -' + str(required_work)+':00:00':>115}")
+        f.write("\n")
+        f.write(f"{balance:>115}")
+
+def main(args):
+    write_total_time(args.lastmonth, args.month, args.required)
+
+
+
+if __name__ == "__main__":
+    args = parser().parse_args()
+    main(args)
+
