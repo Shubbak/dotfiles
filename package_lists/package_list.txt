@@ -49,3 +49,4 @@ zathura-cb
 zathura-pdf-poppler
 zoxide
 zsh
+tailscale
