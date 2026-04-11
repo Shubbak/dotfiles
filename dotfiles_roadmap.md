@@ -71,3 +71,4 @@ Check off as you go.
 - [ ] symlinks to /usr/local/bin
 - [ ] ssh config file
 - [ ] taskwarrior hook: send notification
+- [ ] Brightness and Keyboard Light in hyprconfig
