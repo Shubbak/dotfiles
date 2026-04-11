@@ -8,8 +8,7 @@ news.version=3.4.2
 data.location=~/.local/share/task
 hooks.location=~/.config/task/hooks
 
-sync.server.url=http://100.105.89.11:800
-sync.server.client_id=d602e2ea-8479-4a45-945c-05e5773cbb77
+include ~/.config/task/secret
 
 # Color theme (uncomment one to use)
 # include light-16.theme
