@@ -492,6 +492,7 @@ require("lazy").setup({
         config = function()
             vim.opt.conceallevel = 1
             require("obsidian").setup({
+                disable_frontmatter = true,
                 workspaces = {
                     {
                         path = "~/Obsidian"

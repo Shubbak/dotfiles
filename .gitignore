@@ -12,3 +12,4 @@ oh-my-zsh
 config/hypr/hyprpaper.conf
 helper.sh
 config/task/secret
+config/task/taskrc
