@@ -33,3 +33,4 @@ for file in $(ls $dotdir/bin)
     do sudo ln -sf $dotdir/bin/$file "/usr/local/bin/$file"
 done
 
+safe_link "/current/hypridle.conf" "/home/abu-hamza/.config/hypr/hypridle.conf"
