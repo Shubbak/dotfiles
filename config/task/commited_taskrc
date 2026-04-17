@@ -49,10 +49,10 @@ report.bismillah.sort=urgency-
 report.bismillah.context=1
 
 report.home.description=Report for homekeeping
-report.home.filter=project:home +READY (due.before:3d or due:'') limit:page 
+report.home.filter=project:home +READY (due.before:1d or due:'') limit:page 
 report.home.columns=id,start.age,priority,project,tags,recur.indicator,scheduled.relative,due.relative,until.remaining,description.count,urgency
 report.home.labels=ID,Active,P,Project,Tags,R,S,Due,Until,Description,Urg
-report.home.sort=due+
+report.home.sort=due+,tags+
 report.home.context=1
 
 
