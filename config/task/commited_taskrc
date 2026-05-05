@@ -32,6 +32,14 @@ search.case.sensitive=no
 uda.priority.values=LW,U,H,M,L,
 urgency.uda.priority.U.coefficient=10.0
 urgency.uda.priority.LW.coefficient=16.0
+urgency.uda.priority.L.coefficient=-1.8
+urgency.user.project.health.coefficient=5.0
+urgency.uda.priority.LW.coefficient=12
+urgency.uda.priority.U.coefficient=8
+urgency.user.project.familie.coefficient=2.0
+urgency.user.tag.quickwin.coefficient=8
+urgency.user.tag.lina.coefficient=-2
+
 
 context.hira.read=project:hira
 context.hira.write=project:hira
@@ -62,4 +70,5 @@ default.command=bismillah
 reserved.lines=4
 
 recurrence.limit=1
+
 
