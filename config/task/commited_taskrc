@@ -60,3 +60,6 @@ default.command=bismillah
 
 
 reserved.lines=4
+
+recurrence.limit=1
+
