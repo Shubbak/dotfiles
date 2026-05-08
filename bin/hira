@@ -23,19 +23,19 @@ def parser():
     parser.add_argument(
             "--month", "-m",
             type = str,
-            help = "current month in german. Expects to be upper-case, correct spelling.",
+            help = "current month in german. Expects to be upper-case, correct spelling. Defaults to current month.",
             default=current_month
             )
     parser.add_argument(
             "--lastmonth", "-l",
             type = str,
-            help = "last month in german. Expects to be upper-case, correct spelling.",
+            help = "last month in german. Expects to be upper-case, correct spelling. Defaults to last month.",
             default=last_month
             )
     parser.add_argument(
             "--required", "-r",
             type = float,
-            help = "required work hours for this month",
+            help = "required work hours for this month. Defaults to 68.",
             default = 68
             )
     return parser
