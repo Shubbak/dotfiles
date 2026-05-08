@@ -1,0 +1,135 @@
+#!/usr/bin/env python3
+
+import argparse
+import subprocess as sub
+import os
+import locale
+from datetime import datetime
+
+locale.setlocale(locale.LC_TIME, "de_DE.UTF-8")
+now = datetime.now()
+
+LEDGER_FILE = os.path.expanduser("~/Sync/Refik/ledger.txt")
+WORK_DIR = os.path.expanduser("~/Sync/Refik")
+
+try:
+    os.chdir(WORK_DIR)
+except FileNotFoundError:
+    print("The directory ~/Sync/Refik does not exist.")
+    raise SystemExit(1)
+
+
+def parser():
+    parser = argparse.ArgumentParser(
+        description="Tracks Refik work hours and pay balance."
+    )
+    parser.add_argument(
+        "--rate", "-r",
+        type=float,
+        default=80.0,
+        help="Hourly rate in €. Defaults to 80.0."
+    )
+    parser.add_argument(
+        "--no_save", "-p",
+        action="store_true",
+        help="Don't save, just print."
+    )
+    parser.add_argument(
+            "--start_date",
+            type = str,
+            default = "2026-04-01"
+            )
+    return parser
+
+
+def read_ledger():
+    """Returns list of dicts from ledger, or empty list if no ledger yet."""
+    if not os.path.exists(LEDGER_FILE):
+        return []
+    entries = []
+    with open(LEDGER_FILE, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            # format: 2026-04-15: 12.5h, earned 250.00€, paid 100.00€
+            try:
+                date_part, rest = line.split(": ", 1)
+                parts = rest.split(", ")
+                hours = float(parts[0].replace("h", ""))
+                earned = float(parts[1].replace("earned ", "").replace("€", ""))
+                paid = float(parts[2].replace("paid ", "").replace("€", ""))
+                entries.append({"date": date_part, "hours": hours, "earned": earned, "paid": paid})
+            except (ValueError, IndexError):
+                print(f"Warning: could not parse ledger line: {line}")
+    return entries
+
+
+def write_ledger_entry(date, hours, earned, paid):
+    with open(LEDGER_FILE, "a") as f:
+        f.write(f"{date}: {hours:.2f}h, earned {earned:.2f}€, paid {paid:.2f}€\n")
+
+
+def get_hours_since(since_date):
+    """Runs timew summary from since_date to now and returns total hours as float."""
+    result = sub.run(
+        ["timew", "summary", since_date, "to", "now", "Refik"],
+        capture_output=True, text=True
+    )
+    lines = result.stdout.splitlines()
+    # total is in the second-to-last line
+    for line in reversed(lines):
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            h, m, s = line.split(":")
+            return abs(int(h)) + int(m)/60 + int(s)/3600
+        except ValueError:
+            continue
+    return 0.0
+
+
+def main(args):
+    entries = read_ledger()
+
+    # figure out total already paid and last entry date
+    total_paid = sum(e["paid"] for e in entries)
+    if entries:
+        last_date = datetime.strptime(entries[-1]["date"], "%Y-%m-%d")
+        print(f"Last entry: {entries[-1]['date']}")
+    else:
+        # no ledger yet — ask for a start date
+        date_input = input("No ledger found. Enter start date (YYYY-MM-DD): ").strip()
+        try:
+            last_date = datetime.strptime(date_input, "%Y-%m-%d")
+        except ValueError:
+            print("Invalid date format.")
+            raise SystemExit(1)
+
+    hours = get_hours_since(args.start_date)
+    earned = hours * args.rate
+    open_balance = earned - total_paid
+
+    print(f"\nHours worked since {last_date.strftime('%Y-%m-%d')}: {hours:.2f}h")
+    print(f"Earned:    {earned:.2f}€  (@ {args.rate:.2f}€/h)")
+    print(f"Paid out:  {total_paid:.2f}€")
+    print(f"Open:      {open_balance:.2f}€")
+
+    if args.no_save:
+        return
+
+    paid_now_input = input("\nHow much did you receive now? (Enter 0 if nothing yet): ").strip()
+    try:
+        paid_now = float(paid_now_input)
+    except ValueError:
+        print("Invalid amount, nothing saved.")
+        raise SystemExit(1)
+
+    write_ledger_entry(now.strftime("%Y-%m-%d"), hours, earned, paid_now)
+    print(f"Saved. New open balance: {open_balance - paid_now:.2f}€")
+
+
+if __name__ == "__main__":
+    args = parser().parse_args()
+    main(args)

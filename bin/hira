@@ -3,9 +3,7 @@
 import argparse 
 import subprocess as sub
 import os
-import math
 import locale
-import calendar
 from datetime import datetime, timedelta
 
 locale.setlocale(locale.LC_TIME, "de_DE.UTF-8")
@@ -14,7 +12,13 @@ current_month = now.strftime("%B")
 last_month = (now.replace(day=1) - timedelta(days=1)).strftime("%B")
 
 # os.chdir(os.path.dirname(os.path.abspath(__file__)))
-os.chdir(os.path.expanduser("~/Sync/Hira"))
+try:
+    os.chdir(os.path.expanduser("~/Sync/Hira"))
+except FileNotFoundError:
+    print("The parent directory ~/Sync/Hira does not exist.")
+
+
+
 
 def parser():
     parser = argparse.ArgumentParser(
@@ -33,7 +37,18 @@ def parser():
             default=last_month
             )
     parser.add_argument(
-            "--required", "-r",
+            "--range", "-r",
+            type = str,
+            default=":month",
+            help="The range used by timew. Common: :month (default), :lastmonth, also possible: \"2026-03-01 to 2026-03-31\""
+            )
+    parser.add_argument(
+            "--no_save", "-p",
+            action="store_true",
+            help = "Don't save, just print."
+            )
+    parser.add_argument(
+            "--required", 
             type = float,
             help = "required work hours for this month. Defaults to 68.",
             default = 68
@@ -58,38 +73,52 @@ def parse_time(x):
 
 
 
-def write_total_time(lastmonth, currentmonth, required_work):
-    last_month_work = read_timebalance(f"./{lastmonth}.txt")
+def write_total_time(lastmonth, currentmonth, required_work, no_save, time_range):
+    try:
+        last_month_work = read_timebalance(f"./{lastmonth}.txt")
+    except FileNotFoundError:
+        print("Last month's report is not there, have you created it yet?")
+        return
+
     last_month_h, last_month_m, last_month_s = last_month_work.split(":")
     sign = -1 if last_month_work[0] == '-' else 1
     last_month_number = sign * (abs(int(last_month_h)) + int(last_month_m)/60 + int(last_month_s)/3600)
 
-    summary = sub.run(["timew", "summary", ":month", "Hira"], capture_output=True, text=True).stdout
+    summary = sub.run(["timew", "summary", time_range, "Hira"], capture_output=True, text=True).stdout
 
     this_month_work = summary.splitlines()[-2].strip()
     this_month_h, this_month_m, this_month_s = this_month_work.split(":")
     this_month_number = abs(int(this_month_h)) + int(this_month_m)/60 + int(this_month_s)/3600
 
-    balance = this_month_number - (last_month_number + required_work)
+    balance = this_month_number + last_month_number - required_work
     balance = parse_time(balance)
 
     header = f"Balance vom {lastmonth} (+: Überstunden, -:Minusstunden): {last_month_work}"
 
-    with open(f"./{currentmonth}.txt", "w") as f:
-        f.write(f"{header:>115}")
-        f.write("\n\n")
-        f.write(f"{' Arbeit im ' + currentmonth + ' ':=^115}")
-        f.write("\n")
-        f.write(summary)
-        f.write("\n")
-        f.write(f"{' Balance im ' + currentmonth + ' ':=^115}")
-        f.write("\n")
-        f.write(f"{this_month_work + ' ' + last_month_work + ' -' + str(required_work)+':00:00':>115}")
-        f.write("\n")
-        f.write(f"{balance:>115}")
+
+    output = (
+            f"{header:>115}"
+            "\n\n"
+            f"{' Arbeit im ' + currentmonth + ' ':=^115}"
+            "\n"
+            f"{summary}"
+            "\n"
+            f"{' Balance im ' + currentmonth + ' ':=^115}"
+            "\n"
+            f"{this_month_work + ' ' + last_month_work + ' -' + str(required_work)+':00:00':>115}"
+            "\n"
+            f"{balance:>115}"
+            )
+
+
+    if not no_save:
+        with open(f"./{currentmonth}.txt", "w") as f:
+            f.write(output)
+
+    print(output)
 
 def main(args):
-    write_total_time(args.lastmonth, args.month, args.required)
+    write_total_time(args.lastmonth, args.month, args.required, args.no_save, args.range)
 
 
 
