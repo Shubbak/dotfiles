@@ -50,3 +50,4 @@ zathura-pdf-poppler
 zoxide
 zsh
 tailscale
+hdf5
