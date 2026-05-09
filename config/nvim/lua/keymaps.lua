@@ -75,5 +75,6 @@ vim.keymap.set("n", "<leader>ot", ":ObsidianTemplate<CR>", {noremap = true, desc
 vim.keymap.set("n", "<leader>oo", ":ObsidianQuickSwitch<CR>", {noremap = true, desc= "Open Quick Switch in Obsidian."})
 vim.keymap.set("n", "<leader>ol", ":ObsidianFollowLink<CR>", {noremap = true, desc= "Follow Obsidian Link"})
 
-
-
+-- Disable mouse scrolling
+-- vim.keymap.set({"n", "i", "v"}, "<ScrollWheelUp>", function() end)
+-- vim.keymap.set({"n", "i", "v"}, "<ScrollWheelDown>", function() end)

@@ -1,6 +1,8 @@
 -- Enable syntax highlighting
 vim.cmd("syntax on")
 
+-- disable mouse
+vim.o.mouse = ""
 
 -- Line numbering: absolute and relative toggle
 vim.wo.number = true
