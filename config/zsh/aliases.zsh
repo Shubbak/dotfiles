@@ -1,5 +1,6 @@
 alias pa='for repo in */; do echo "\n================= This is $repo =================" && git -C "$repo" pull; done'
-alias sa='for repo in */; do echo "\n================= This is $repo =================" && git -C "$repo" status; done'
+# alias sa='for repo in */; do echo "\n================= This is $repo =================" && git -C "$repo" status; done'
+alias sa='ll --git-repos'
 
 # alias gvim="neovide"
 alias cdD='cd /media/Festplatte/Dokumente/Repos'
