@@ -47,7 +47,7 @@ context.thesis.read=project:thesis
 context.thesis.write=project:thesis
 context.home.read=pro:home
 context.home.write=pro:home
-context.private.read=project.not:hira project.not:thesis
+context.private.read=(project.not:hira project.not:thesis) or /"Zwischenbericht"/
 
 report.bismillah.description=Report sorted by urgency not showing scheduled
 report.bismillah.filter=project.not:home (+READY or (scheduled.before:tomorrow+1d +PENDING)) limit:page
